@@ -1,0 +1,340 @@
+/* ===========================================================
+   Advgenai week themes. Each week has its own look, built from the
+   same hand-drawn "sketch" parts: a palette (paper + chalkboard),
+   a paper pattern, a bottom edge, a display font and a corner shape.
+
+   HOW TO USE   put data-week="N" on <html> (a whole page) or on any
+                element (a card, a button, a panel). Load this file
+                AFTER site.css or sketch.css.
+   HOW TO TUNE  change the colours below. Nothing else needs touching.
+   =========================================================== */
+
+/* ---------- Week 1 · The Sketchbook · a notebook page: dotted paper, yellow highlighter and a red pen ---------- */
+[data-week="1"] {
+  --font-display: "Kalam", "Comic Sans MS", cursive;
+  --dw: 700;
+  --dlh: 1.12;
+  --paper: radial-gradient(circle, var(--dots) 1.6px, transparent 1.9px);
+  --paper-size: 34px 34px;
+  --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='14'%3E%3Cpath d='M0 7 Q12 0 24 7 T48 7' fill='none' stroke='%23d93025' stroke-width='3'/%3E%3C/svg%3E") repeat-x;
+  --edge-h: 14px;
+  --tape: var(--hl-pink);
+  --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --wobble-s: 30px 8px 26px 9px / 9px 26px 8px 30px;
+  --bg: #faf6ec;
+  --text: #1f1f1f;
+  --muted: #45413a;
+  --soft: #8a8170;
+  --dots: #d8cfbd;
+  --surface: #fffdf7;
+  --hl-yellow: #fff176;
+  --hl-yellow-soft: #fff8c4;
+  --hl-pink: #ffc1cc;
+  --hl-green: #c8f7c5;
+  --hl-blue: #cfe8ff;
+  --pen-red: #d93025;
+  --pen-blue: #1a56db;
+  --shadow: rgba(31,31,31,.14);
+  --stage-bg: #e6dfcf;
+  --ink: #1f1f1f;
+  --accent-text: #d93025;
+  --accent-line: #1a56db;
+  --accent-soft: #fff8c4;
+}
+:root[data-theme="dark"] [data-week="1"],
+:root[data-theme="dark"][data-week="1"] {
+  --bg: #26332d;
+  --text: #f4f1e8;
+  --muted: #d3dbd4;
+  --soft: #9fb0a4;
+  --dots: rgba(255,255,255,.07);
+  --surface: rgba(255,255,255,.05);
+  --hl-yellow: rgba(255,241,118,.38);
+  --hl-yellow-soft: rgba(255,241,118,.14);
+  --hl-pink: rgba(255,145,170,.4);
+  --hl-green: rgba(140,240,150,.3);
+  --hl-blue: rgba(120,190,255,.24);
+  --pen-red: #ff8a80;
+  --pen-blue: #82b1ff;
+  --shadow: rgba(0,0,0,.3);
+  --stage-bg: #121815;
+  --ink: #f4f1e8;
+  --accent-text: #ff8a80;
+  --accent-line: #82b1ff;
+  --accent-soft: rgba(255,241,118,.14);
+}
+
+/* ---------- Week 2 · The Blueprint · drafting paper with a grid: every pattern is drawn as a diagram ---------- */
+[data-week="2"] {
+  --font-display: "Architects Daughter", "Comic Sans MS", cursive;
+  --dw: 400;
+  --dlh: 1.25;
+  --paper: linear-gradient(var(--dots) 2px, transparent 2px), linear-gradient(90deg, var(--dots) 2px, transparent 2px), linear-gradient(var(--dots) 1px, transparent 1px), linear-gradient(90deg, var(--dots) 1px, transparent 1px);
+  --paper-size: 140px 140px, 140px 140px, 28px 28px, 28px 28px;
+  --edge: repeating-linear-gradient(90deg, var(--pen-blue) 0 16px, transparent 16px 24px);
+  --edge-h: 4px;
+  --tape: var(--hl-pink);
+  --wobble: 10px 4px 12px 4px / 4px 12px 4px 10px;
+  --wobble-s: 5px 2px 6px 2px / 2px 6px 2px 5px;
+  --bg: #e8f1fb;
+  --text: #10294d;
+  --muted: #2c4a78;
+  --soft: #6a82a8;
+  --dots: rgba(37,99,235,.14);
+  --surface: #f6faff;
+  --hl-yellow: #9fe3ff;
+  --hl-yellow-soft: #d6f1ff;
+  --hl-pink: #ffd3a6;
+  --hl-green: #bff0e3;
+  --hl-blue: #cfe0ff;
+  --pen-red: #e8590c;
+  --pen-blue: #1d4ed8;
+  --shadow: rgba(16,41,77,.18);
+  --stage-bg: #cfe0f4;
+  --ink: #10294d;
+  --accent-text: #e8590c;
+  --accent-line: #1d4ed8;
+  --accent-soft: #d6f1ff;
+}
+:root[data-theme="dark"] [data-week="2"],
+:root[data-theme="dark"][data-week="2"] {
+  --bg: #123a73;
+  --text: #eaf4ff;
+  --muted: #c3d8f5;
+  --soft: #8fb0e0;
+  --dots: rgba(255,255,255,.12);
+  --surface: rgba(255,255,255,.06);
+  --hl-yellow: rgba(120,220,255,.38);
+  --hl-yellow-soft: rgba(120,220,255,.14);
+  --hl-pink: rgba(255,176,103,.45);
+  --hl-green: rgba(120,240,200,.28);
+  --hl-blue: rgba(160,200,255,.22);
+  --pen-red: #ffb067;
+  --pen-blue: #9cc2ff;
+  --shadow: rgba(0,0,0,.35);
+  --stage-bg: #0c2a55;
+  --ink: #eaf4ff;
+  --accent-text: #ffb067;
+  --accent-line: #9cc2ff;
+  --accent-soft: rgba(120,220,255,.14);
+}
+
+/* ---------- Week 3 · The Index Cards · ruled cards, one idea per card: the memory of the course ---------- */
+[data-week="3"] {
+  --font-display: "Gloria Hallelujah", "Comic Sans MS", cursive;
+  --dw: 400;
+  --dlh: 1.4;
+  --paper: repeating-linear-gradient(0deg, transparent 0 33px, var(--dots) 33px 35px);
+  --paper-size: auto;
+  --edge: linear-gradient(var(--pen-red), var(--pen-red));
+  --edge-h: 4px;
+  --tape: var(--hl-pink);
+  --wobble: 8px 10px 6px 12px / 12px 6px 10px 8px;
+  --wobble-s: 6px 8px 5px 9px / 9px 5px 8px 6px;
+  --bg: #f6efdc;
+  --text: #2b2620;
+  --muted: #4a4238;
+  --soft: #8c8068;
+  --dots: rgba(70,120,190,.26);
+  --surface: #fffdf4;
+  --hl-yellow: #cdebb1;
+  --hl-yellow-soft: #e6f4d4;
+  --hl-pink: #ffd7bd;
+  --hl-green: #fff0a8;
+  --hl-blue: #d8e8f7;
+  --pen-red: #d9480f;
+  --pen-blue: #2b6cb0;
+  --shadow: rgba(43,38,32,.16);
+  --stage-bg: #e8dfc8;
+  --ink: #2b2620;
+  --accent-text: #d9480f;
+  --accent-line: #2b6cb0;
+  --accent-soft: #e6f4d4;
+}
+:root[data-theme="dark"] [data-week="3"],
+:root[data-theme="dark"][data-week="3"] {
+  --bg: #2a2824;
+  --text: #f1ead8;
+  --muted: #d6cfbb;
+  --soft: #a39b84;
+  --dots: rgba(160,200,255,.12);
+  --surface: rgba(255,255,255,.05);
+  --hl-yellow: rgba(170,230,120,.34);
+  --hl-yellow-soft: rgba(170,230,120,.14);
+  --hl-pink: rgba(255,170,130,.38);
+  --hl-green: rgba(255,235,120,.28);
+  --hl-blue: rgba(150,190,240,.24);
+  --pen-red: #ff9a6a;
+  --pen-blue: #8cbcf5;
+  --shadow: rgba(0,0,0,.35);
+  --stage-bg: #1c1a16;
+  --ink: #f1ead8;
+  --accent-text: #ff9a6a;
+  --accent-line: #8cbcf5;
+  --accent-soft: rgba(170,230,120,.14);
+}
+
+/* ---------- Week 4 · The Sticky Wall · a team whiteboard covered in sticky notes: many voices, one board ---------- */
+[data-week="4"] {
+  --font-display: "Permanent Marker", "Comic Sans MS", cursive;
+  --dw: 400;
+  --dlh: 1.3;
+  --paper: radial-gradient(circle, var(--dots) 2.6px, transparent 3px);
+  --paper-size: 46px 46px;
+  --edge: radial-gradient(circle, var(--pen-red) 3.4px, transparent 4px) 0 0 / 22px 14px repeat-x;
+  --edge-h: 14px;
+  --tape: var(--hl-pink);
+  --wobble: 6px 6px 34px 6px / 6px 6px 34px 6px;
+  --wobble-s: 4px 4px 14px 4px / 4px 4px 14px 4px;
+  --bg: #f0ebfb;
+  --text: #251a3d;
+  --muted: #46386b;
+  --soft: #8574ab;
+  --dots: rgba(111,76,255,.2);
+  --surface: #fbf9ff;
+  --hl-yellow: #ffe66d;
+  --hl-yellow-soft: #fff4b8;
+  --hl-pink: #ffa8d1;
+  --hl-green: #a6efcf;
+  --hl-blue: #b5dcff;
+  --pen-red: #c2185b;
+  --pen-blue: #5b3fd1;
+  --shadow: rgba(37,26,61,.16);
+  --stage-bg: #ddd5f2;
+  --ink: #251a3d;
+  --accent-text: #c2185b;
+  --accent-line: #5b3fd1;
+  --accent-soft: #fff4b8;
+}
+:root[data-theme="dark"] [data-week="4"],
+:root[data-theme="dark"][data-week="4"] {
+  --bg: #241a3c;
+  --text: #f4efff;
+  --muted: #d6cbf0;
+  --soft: #a798cf;
+  --dots: rgba(255,255,255,.09);
+  --surface: rgba(255,255,255,.06);
+  --hl-yellow: rgba(255,230,109,.36);
+  --hl-yellow-soft: rgba(255,230,109,.15);
+  --hl-pink: rgba(255,140,200,.4);
+  --hl-green: rgba(130,240,190,.3);
+  --hl-blue: rgba(130,190,255,.3);
+  --pen-red: #ff8fc0;
+  --pen-blue: #b3a1ff;
+  --shadow: rgba(0,0,0,.35);
+  --stage-bg: #171026;
+  --ink: #f4efff;
+  --accent-text: #ff8fc0;
+  --accent-line: #b3a1ff;
+  --accent-soft: rgba(255,230,109,.15);
+}
+
+/* ---------- Week 5 · The Control Room · graph paper and hazard tape: the checklist before anything ships ---------- */
+[data-week="5"] {
+  --font-display: "Special Elite", "Courier New", monospace;
+  --dw: 400;
+  --dlh: 1.25;
+  --paper: linear-gradient(var(--dots) 1px, transparent 1px), linear-gradient(90deg, var(--dots) 1px, transparent 1px);
+  --paper-size: 20px 20px;
+  --edge: repeating-linear-gradient(-45deg, #ffc857 0 12px, #1d2321 12px 24px);
+  --edge-h: 12px;
+  --tape: repeating-linear-gradient(-45deg, #ffc857 0 12px, #1d2321 12px 24px);
+  --wobble: 4px 4px 4px 4px / 4px 4px 4px 4px;
+  --wobble-s: 3px 3px 3px 3px / 3px 3px 3px 3px;
+  --bg: #eef1ea;
+  --text: #1d2321;
+  --muted: #3b4541;
+  --soft: #7a867f;
+  --dots: rgba(30,90,70,.15);
+  --surface: #fbfcfa;
+  --hl-yellow: #ffc857;
+  --hl-yellow-soft: #ffe9b3;
+  --hl-pink: #ffc9b8;
+  --hl-green: #b7efc5;
+  --hl-blue: #c8e7ee;
+  --pen-red: #d62828;
+  --pen-blue: #0b7285;
+  --shadow: rgba(29,35,33,.18);
+  --stage-bg: #dde2da;
+  --ink: #1d2321;
+  --accent-text: #d62828;
+  --accent-line: #0b7285;
+  --accent-soft: #ffe9b3;
+}
+:root[data-theme="dark"] [data-week="5"],
+:root[data-theme="dark"][data-week="5"] {
+  --bg: #1b2124;
+  --text: #f1efe6;
+  --muted: #cfd3cc;
+  --soft: #8e9a94;
+  --dots: rgba(255,255,255,.07);
+  --surface: rgba(255,255,255,.05);
+  --hl-yellow: rgba(255,200,87,.4);
+  --hl-yellow-soft: rgba(255,200,87,.15);
+  --hl-pink: rgba(255,140,120,.38);
+  --hl-green: rgba(120,235,160,.3);
+  --hl-blue: rgba(100,200,220,.26);
+  --pen-red: #ff6b6b;
+  --pen-blue: #5fd0e6;
+  --shadow: rgba(0,0,0,.4);
+  --stage-bg: #101416;
+  --ink: #f1efe6;
+  --accent-text: #ff6b6b;
+  --accent-line: #5fd0e6;
+  --accent-soft: rgba(255,200,87,.15);
+}
+
+/* ---------- Week 6 · The Recording Booth · a studio at night: warm light, sound bars and a live microphone ---------- */
+[data-week="6"] {
+  --font-display: "Gochi Hand", "Comic Sans MS", cursive;
+  --dw: 400;
+  --dlh: 1.25;
+  --paper: repeating-linear-gradient(90deg, var(--dots) 0 2px, transparent 2px 20px);
+  --paper-size: auto;
+  --edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='62' height='14'%3E%3Cpath d='M4 4V10M10 1V13M16 3V11M22 5V9M28 0V14M34 3V11M40 6V8M46 2V12M52 4V10M58 5V9' fill='none' stroke='%23e5484d' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+  --edge-h: 14px;
+  --tape: var(--hl-pink);
+  --wobble: 46px 46px 46px 46px / 46px 46px 46px 46px;
+  --wobble-s: 999px;
+  --bg: #fff1ea;
+  --text: #2a1c1a;
+  --muted: #5a3f3a;
+  --soft: #a07e76;
+  --dots: rgba(229,72,77,.12);
+  --surface: #fffaf7;
+  --hl-yellow: #ffc4b3;
+  --hl-yellow-soft: #ffe3da;
+  --hl-pink: #a8ece0;
+  --hl-green: #c9f2d8;
+  --hl-blue: #d7f0ee;
+  --pen-red: #e5484d;
+  --pen-blue: #0f9b8e;
+  --shadow: rgba(42,28,26,.16);
+  --stage-bg: #f3ddd3;
+  --ink: #2a1c1a;
+  --accent-text: #e5484d;
+  --accent-line: #0f9b8e;
+  --accent-soft: #ffe3da;
+}
+:root[data-theme="dark"] [data-week="6"],
+:root[data-theme="dark"][data-week="6"] {
+  --bg: #151a22;
+  --text: #f5efe9;
+  --muted: #d8d0c8;
+  --soft: #8f98a6;
+  --dots: rgba(255,255,255,.06);
+  --surface: rgba(255,255,255,.05);
+  --hl-yellow: rgba(255,120,100,.38);
+  --hl-yellow-soft: rgba(255,120,100,.15);
+  --hl-pink: rgba(45,212,191,.38);
+  --hl-green: rgba(120,235,170,.28);
+  --hl-blue: rgba(45,212,191,.22);
+  --pen-red: #ff7a7f;
+  --pen-blue: #3de0cf;
+  --shadow: rgba(0,0,0,.4);
+  --stage-bg: #0c1016;
+  --ink: #f5efe9;
+  --accent-text: #ff7a7f;
+  --accent-line: #3de0cf;
+  --accent-soft: rgba(255,120,100,.15);
+}

@@ -1,0 +1,218 @@
+/* ===========================================================
+   Sketch theme: hand-drawn "notebook" look.
+   Loaded AFTER deck.css, so it only changes the look; the slide
+   engine, layout and content stay the same.
+   Paper by default. Press T for the chalkboard version.
+   =========================================================== */
+:root {
+  --ls: 0.03em;                 /* letter spacing: a little more than the default, so the handwriting fonts breathe */
+  --stage-bg: #e6dfcf;
+  --bg: #faf6ec;
+  --text: #1f1f1f;
+  --ink: #1f1f1f;
+  --muted: #3f3f3f;
+  --soft: #8a8170;
+  --surface: #fffdf7;
+  --surface-2: #f3eddf;
+  --line: rgba(31, 31, 31, 0.35);
+  --line-strong: #1f1f1f;
+  --dots: #d8cfbd;
+  --hl-yellow: #fff176;
+  --hl-yellow-soft: #fff8c4;
+  --hl-pink: #ffc1cc;
+  --hl-green: #c8f7c5;
+  --hl-blue: #cfe8ff;
+  --pen-red: #d93025;
+  --pen-blue: #1a56db;
+  --accent: #1f1f1f;
+  --accent-text: #d93025;
+  --accent-line: #1a56db;
+  --accent-soft: #fff8c4;
+  --deep: #1f1f1f;
+  --code-bg: #263238;
+  --shadow: none;
+  --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --wobble-s: 30px 8px 26px 9px / 9px 26px 8px 30px;
+  --font-display: "Kalam", "Comic Sans MS", cursive;
+  --font-body: "Patrick Hand", "Comic Sans MS", cursive;
+  --font-note: "Caveat", "Comic Sans MS", cursive;
+}
+:root[data-theme="dark"] {           /* chalkboard */
+  --stage-bg: #121815;
+  --bg: #26332d;
+  --text: #f4f1e8;
+  --ink: #f4f1e8;
+  --muted: #d3dbd4;
+  --soft: #9fb0a4;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --line: rgba(244, 241, 232, 0.35);
+  --line-strong: #f4f1e8;
+  --dots: rgba(255, 255, 255, 0.07);
+  --hl-yellow: rgba(255, 241, 118, 0.38);
+  --hl-yellow-soft: rgba(255, 241, 118, 0.16);
+  --hl-pink: rgba(255, 145, 170, 0.38);
+  --hl-green: rgba(140, 240, 150, 0.3);
+  --hl-blue: rgba(120, 190, 255, 0.3);
+  --pen-red: #ff8a80;
+  --pen-blue: #82b1ff;
+  --accent: #f4f1e8;
+  --accent-text: #ff8a80;
+  --accent-line: #82b1ff;
+  --accent-soft: rgba(255, 241, 118, 0.16);
+  --deep: #f4f1e8;
+  --code-bg: #18201c;
+}
+
+/* ---------- paper ---------- */
+/* --paper, --paper-size, --edge and --edge-h come from themes.css when a deck sets data-week="N"; the fallbacks are the Week 1 look */
+.grid-bg {
+  background-color: var(--bg);
+  background-image: var(--paper, radial-gradient(circle, var(--dots) 1.6px, transparent 1.9px));
+  background-size: var(--paper-size, 34px 34px);
+}
+.accent-bar {
+  height: var(--edge-h, 14px); bottom: 6px;
+  background: var(--edge, transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='14'%3E%3Cpath d='M0 7 Q12 0 24 7 T48 7' fill='none' stroke='%23d93025' stroke-width='3'/%3E%3C/svg%3E") repeat-x);
+}
+.progress { background: var(--pen-red); }
+
+/* ---------- type ---------- */
+h1, h2 { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--ls); line-height: 1.12; }
+h2 { font-size: 72px; }
+.title-slide h1 { font-size: 150px; line-height: 1.05; margin-top: 24px; }
+h1 em, h2 em, .big-statement em {
+  color: inherit; background: var(--hl-yellow); padding: 0.03em 0.16em 0.08em;
+  display: inline-block; line-height: 0.95;           /* a slim band around the word, not the font's full height */
+  border-radius: 0.4em 0.2em 0.5em 0.25em;
+}
+.big-statement { font-family: var(--font-display); letter-spacing: var(--ls); line-height: 1.2; }
+.eyebrow { font: 700 32px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--pen-red); margin-bottom: 16px; }
+.lede, .caption, .how { font-family: var(--font-body); }
+.lede { font-size: 36px; margin-top: 36px; }
+.caption { font-size: 30px; }
+.caption b { background: var(--hl-pink); padding: 0 0.2em; border-radius: 0.3em 0.5em 0.35em 0.45em; }
+.how { font-size: 28px; }
+.how b { font-weight: 400; color: var(--text); text-decoration: underline wavy var(--pen-blue); text-decoration-thickness: 2px; text-underline-offset: 7px; }
+
+/* ---------- chrome ---------- */
+.meta-left { font: 700 24px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--text); border: 2px solid var(--line-strong); border-radius: var(--wobble-s); background: var(--surface); padding: 4px 18px 4px 14px; }
+.meta-left .dot { background: var(--pen-red); }
+.slide-num, .title-meta-right { font: 700 26px var(--font-note); color: var(--soft); letter-spacing: var(--ls); }
+
+/* ---------- title slide ---------- */
+.title-slide .geo { background: none; border-radius: 0; width: 470px; height: 470px; right: 130px; top: 120px; }
+.title-slide .geo::after { display: none; }
+.title-slide .geo svg { width: 100%; height: 100%; display: block; }
+.title-slide .side-block { background: var(--hl-yellow-soft); border: 3px solid var(--line-strong); border-radius: var(--wobble); transform: rotate(-2deg); }
+.title-slide .side-block .label { font: 700 26px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--pen-red); }
+.title-slide .side-block p { font-family: var(--font-display); letter-spacing: var(--ls); }
+
+/* ---------- cards & boxes: hand-drawn borders ---------- */
+.card, .vocab-row, .ex-strip, .takeaway, .tbl {
+  border: 3px solid var(--line-strong); border-radius: var(--wobble); box-shadow: none;
+}
+.card { background: var(--surface); }
+.cards > .card:nth-child(odd) { transform: rotate(-0.5deg); }
+.cards > .card:nth-child(even) { transform: rotate(0.45deg); }
+.card.hot { background: var(--hl-yellow-soft); border: 3px solid var(--line-strong); }
+.card.hot::before { display: none; }
+.card.dark { background: var(--hl-pink); border-color: var(--line-strong); }
+.card.dark h3, .card.dark p, .card.dark .eg { color: var(--text); }
+.card.dark .k { color: var(--pen-red); }
+.card h3 { font-family: var(--font-display); letter-spacing: var(--ls); font-size: 40px; }
+.card p { font-family: var(--font-body); font-size: 30px; color: var(--muted); }
+.card .k { font: 700 26px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--pen-red); }
+.card .eg { font-family: var(--font-body); font-size: 26px; border-top: 2px dashed var(--line); }
+.big-num, .num-row .n { font-family: var(--font-note); color: var(--pen-red); background: none; }
+.big-num { font-size: 90px; }
+.card .ex, .vocab-row .ai { font-family: var(--font-body); font-size: 25px; background: transparent; border: 2px dashed var(--line); border-radius: var(--wobble-s); }
+.card.hot .ex, .vocab-row.hot .ai { background: transparent; }
+.card .ex b, .ex-strip .lbl, .takeaway .lbl, .trial-q .lbl, .term-label {
+  font: 700 25px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--pen-red);
+}
+
+/* numbered rows */
+.num-row { border-top: 2px dashed var(--line); }
+.num-row:last-child { border-bottom: 2px dashed var(--line); }
+.num-row .n { font-size: 64px; }
+.num-row .t { font-family: var(--font-display); letter-spacing: var(--ls); }
+.num-row .d { font-family: var(--font-body); font-size: 30px; }
+
+/* vocabulary rows */
+.vocab-head { font: 700 26px var(--font-note); letter-spacing: var(--ls); text-transform: none; color: var(--pen-red); }
+.vocab-row { background: var(--surface); }
+.vocab-row.hot { background: var(--hl-yellow-soft); border: 3px solid var(--line-strong); }
+.vocab-row .word { font-family: var(--font-display); letter-spacing: var(--ls); font-size: 38px; }
+.vocab-row .word .num { font: 700 26px var(--font-note); color: var(--pen-red); }
+.vocab-row .mean { font-family: var(--font-body); font-size: 28px; }
+.vocab-row .pic { font-family: var(--font-body); font-size: 26px; }
+.vocab-row .ai { font-size: 24px; }
+
+/* ---------- table ---------- */
+.tbl { overflow: hidden; background: var(--surface); }
+.tbl th { font: 700 28px var(--font-display); letter-spacing: var(--ls); text-transform: none; background: var(--hl-yellow); color: var(--text); border-bottom: 3px solid var(--line-strong); }
+.tbl th.acc { background: var(--hl-pink); }
+.tbl td { font-family: var(--font-body); font-size: 30px; border-bottom: 2px dashed var(--line); background: transparent; }
+.tbl td:first-child { font: 700 26px var(--font-display); letter-spacing: var(--ls); text-transform: none; color: var(--muted); background: transparent; }
+.tbl.trace td:first-child { color: var(--pen-red); font-family: var(--font-note); font-size: 32px; }
+.tbl.trace td { font-size: 28px; }
+
+/* ---------- tags, chips, verdicts ---------- */
+.tag, .chip, .verdict { font-family: var(--font-body); letter-spacing: var(--ls); text-transform: none; border: 2px solid var(--line-strong); border-radius: var(--wobble-s); color: var(--text); }
+.tag { font-size: 22px; background: var(--hl-green); }
+.tag.a { background: var(--hl-yellow); }
+.tag.g { background: var(--surface); border: 2px solid var(--line-strong); }
+.chip { font-size: 26px; background: var(--hl-yellow); }
+.chip.ink { background: var(--hl-blue); border-color: var(--line-strong); }
+.verdict { font-size: 22px; }
+.verdict.ok { background: #c8f7c5; color: #1f1f1f; border-color: #1f1f1f; }
+.verdict.bad { background: #ffc1cc; color: #b71c1c; border-color: #b71c1c; }
+
+/* ---------- terminal, code, takeaway, example strip ---------- */
+.term, .code { border: 3px solid var(--line-strong); border-radius: var(--wobble-s); }
+.takeaway { background: var(--hl-blue); color: var(--text); font-family: var(--font-body); font-size: 30px; }
+.ex-strip { background: var(--hl-yellow-soft); font-family: var(--font-body); font-size: 27px; }
+.ex-strip code { border: 2px solid var(--line-strong); border-radius: var(--wobble-s); background: var(--surface); }
+.trial-q { font-family: var(--font-body); font-size: 32px; font-weight: 400; }
+
+/* ---------- checklist ---------- */
+.check li { border-top: 2px dashed var(--line); }
+.check li:last-child { border-bottom: 2px dashed var(--line); }
+.check .box { border: 3px solid var(--line-strong); border-radius: var(--wobble-s); }
+.check .t { font-family: var(--font-display); letter-spacing: var(--ls); }
+
+/* ---------- diagrams: wobbly ink lines, highlighter fills ---------- */
+.diagram rect { rx: 12px; ry: 12px; stroke: var(--line-strong) !important; stroke-width: 3 !important; filter: url(#rough); }
+.diagram line { filter: none; }   /* a filter on a perfectly straight line has a zero-size area and hides it */
+.diagram .box { fill: var(--surface); }
+.diagram .box-soft { fill: var(--hl-blue); }
+.diagram .box-acc { fill: var(--hl-yellow); }
+.diagram .box-dark { fill: var(--hl-pink); }
+.diagram .st0 { fill: var(--surface); }
+.diagram .st1 { fill: var(--hl-yellow-soft); }
+.diagram .st2 { fill: var(--hl-yellow); }
+.diagram .st3 { fill: #ffd0a8; }
+.diagram .st4 { fill: var(--hl-pink); }
+:root[data-theme="dark"] .diagram .st3 { fill: rgba(255, 180, 120, 0.35); }
+.diagram .line { stroke: var(--text); }
+.diagram text { fill: var(--text) !important; font-family: var(--font-body); }
+.diagram .tx-l { font-family: var(--font-display); font-weight: 700; letter-spacing: var(--ls); }
+.diagram .tx-s { fill: var(--muted) !important; font-size: 26px; }
+.diagram .tx-n { font-family: var(--font-body); font-weight: 400; font-size: 36px; }
+.diagram .tx-lbl { fill: var(--pen-red) !important; font-family: var(--font-note); font-weight: 700; font-size: 28px !important; letter-spacing: var(--ls); text-transform: none; }
+.diagram .tx-ex { fill: var(--pen-blue) !important; font-family: var(--font-note); font-style: normal; font-weight: 700; font-size: 25px; }
+
+/* doodles keep their own colours */
+.doodle { overflow: visible; }
+.doodle .ink { fill: none; stroke: var(--text); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.doodle .fill-y { fill: var(--hl-yellow); }
+.doodle .fill-b { fill: var(--hl-blue); }
+.doodle .fill-r { fill: var(--pen-red); }
+.doodle .dot { fill: var(--text); }
+.doodle text { font-family: var(--font-note); font-weight: 700; fill: var(--pen-red); }
+
+/* ---------- a little more letter spacing everywhere ---------- */
+:where(.slide, .slide *) { letter-spacing: var(--ls); }   /* every element gets spacing in proportion to ITS OWN font size; any rule with its own value still wins */
+.diagram .tx, .diagram .tx-s, .diagram .tx-n, .diagram .tx-ex { letter-spacing: var(--ls); }
+.tbl td, .tbl th, .term, .code { letter-spacing: var(--ls); }

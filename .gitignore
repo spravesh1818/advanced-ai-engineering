@@ -1,2 +1,8 @@
 .frontend-slides/
 prompt.md
+.env
+.ipynb_checkpoints/
+__pycache__/
+
+# Instructor-only lab solutions: do not publish
+*_solution.ipynb

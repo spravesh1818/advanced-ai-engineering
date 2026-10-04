@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Day 1: Foundations (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 TITLE ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 1 · Day 1</div>
+  <div class="title-meta-right">90 min · Foundations</div>
+  <div class="geo">
+    <!-- doodle: a little robot agent ticking off tasks -->
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>What is<br>an AI <em>agent?</em></h1>
+    <p class="lede">The ideas you need before we build anything.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>No coding.<br>Just the mental model.</p></div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:00 to 0:02</span></div><dl>
+    <dt>Do we need a laptop today?</dt><dd>Not for today's ideas. Have the Groq setup ready for homework, because we start coding on Day 2.</dd>
+    <dt>Is this beginner level?</dt><dd>The course assumes some Python and LLM API experience, but today's ideas are explained from scratch.</dd>
+    <dt>What is "agentic" AI?</dt><dd>AI that can take steps on its own (choose tools, act, check results) instead of only answering once. That's what today is about.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 02 WEEK 1 MAP ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Welcome</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Week 1 · Agent foundations</div>
+    <h2>Four days.<br>One working agent.</h2>
+    <svg class="diagram" viewBox="0 0 1760 330" style="margin-top:50px">
+      <rect class="box-acc" x="0" y="20" width="380" height="250"/>
+      <text class="tx white" x="190" y="80" style="font-size:20px;letter-spacing:.14em">DAY 1 · TODAY</text>
+      <text class="tx-l white" x="190" y="150">Foundations</text>
+      <text class="tx-s white" x="190" y="200" style="fill:#fff">What is an agent?</text>
+      <text class="tx-s white" x="190" y="236" style="fill:#fff">Theory, no code</text>
+      <line class="line" x1="380" y1="145" x2="450" y2="145" marker-end="url(#arrow)"/>
+      <rect class="box" x="450" y="20" width="380" height="250"/>
+      <text class="tx-lbl" x="640" y="80" style="font-size:20px">DAY 2</text>
+      <text class="tx-l" x="640" y="150">Live demo</text>
+      <text class="tx-s" x="640" y="200">I build the whole agent</text>
+      <text class="tx-s" x="640" y="236">live, you watch</text>
+      <line class="line" x1="830" y1="145" x2="900" y2="145" marker-end="url(#arrow)"/>
+      <rect class="box" x="900" y="20" width="380" height="250"/>
+      <text class="tx-lbl" x="1090" y="80" style="font-size:20px">DAY 3</text>
+      <text class="tx-l" x="1090" y="150">Build 1</text>
+      <text class="tx-s" x="1090" y="200">Tools, loop, state,</text>
+      <text class="tx-s" x="1090" y="236">limits and errors</text>
+      <line class="line" x1="1280" y1="145" x2="1350" y2="145" marker-end="url(#arrow)"/>
+      <rect class="box-dark" x="1350" y="20" width="410" height="250"/>
+      <text class="tx-lbl" x="1555" y="80" style="font-size:20px;fill:#86efac">DAY 4</text>
+      <text class="tx-l white" x="1555" y="150">Build 2</text>
+      <text class="tx-s" x="1555" y="200" style="fill:#d1e7d8">Research agent:</text>
+      <text class="tx-s" x="1555" y="236" style="fill:#d1e7d8">search, sources, testing</text>
+    </svg>
+    <p class="caption">By the end of the week, <b>you will have built a research agent yourself.</b></p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:02 to 0:05</span></div><dl>
+    <dt>Do we build one project or four?</dt><dd>One agent that grows each day: a live demo, then tools and state, then search.</dd>
+    <dt>What do I need to build it?</dt><dd>Python, a free Groq API key, and a free Tavily key for search (bring it by Day 3).</dd>
+    <dt>What about the other weeks?</dt><dd>The course continues after Week 1. Today we only focus on this week.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 03 GOALS ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Welcome</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Goal of today</div>
+    <h2>By the end of class<br>you can explain...</h2>
+    <div class="rows">
+      <div class="num-row"><div class="n">01</div><div><div class="t">What an agent is</div><div class="d">In one sentence, in your own words</div></div></div>
+      <div class="num-row"><div class="n">02</div><div><div class="t">Agent vs workflow</div><div class="d">Who decides the steps, you or the model?</div></div></div>
+      <div class="num-row"><div class="n">03</div><div><div class="t">Why "minimum autonomy"</div><div class="d">Why the simplest design that works is the best one</div></div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">part of the welcome</span></div><dl>
+    <dt>Will there be a test?</dt><dd>No exam. A short written question at the end of today, and a quick quiz on Day 4.</dd>
+    <dt>What does "autonomy" mean?</dt><dd>How much the AI decides by itself. We define it properly on slide 6.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 04 DEMO ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Demo</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Where Week 1 ends</div>
+    <h2>The finished <em>research agent</em></h2>
+    <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:44px;margin-top:36px">
+      <div>
+        <div class="term-label">Example run (illustrative)</div>
+        <div class="term">
+          <div class="q">&gt; Plan a day in Pokhara: weather and top 3 things to do</div>
+          <div class="th">[think]  I need live weather and some travel info</div>
+          <div class="tl">[tool]   get_weather("Pokhara")  &rarr; 21°C, clear</div>
+          <div class="tl">[tool]   search("things to do Pokhara")  &rarr; 5 results</div>
+          <div class="th">[think]  I have enough to answer</div>
+          <div class="an">[answer] Clear and 21°C today. Top picks: lake boating,</div>
+          <div class="an">         World Peace Pagoda, Sarangkot sunrise.</div>
+          <div class="dim">         Sources: [1] [2] [3]</div>
+        </div>
+      </div>
+      <div>
+        <div class="term-label">What to notice</div>
+        <div class="rows" style="margin-top:0">
+          <div class="num-row" style="padding:20px 0"><div class="n" style="font-size:42px;width:70px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500">It <b>chose</b> which tools to use</div></div>
+          <div class="num-row step" style="padding:20px 0"><div class="n" style="font-size:42px;width:70px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500">It <b>repeated</b> until it had enough</div></div>
+          <div class="num-row step" style="padding:20px 0"><div class="n" style="font-size:42px;width:70px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500">It <b>showed its steps</b> and sources</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:05 to 0:13</span></div><dl>
+    <dt>Is that real output?</dt><dd>The slide is an illustrative example of a run. A live run follows the same steps, but the exact words and numbers will differ.</dd>
+    <dt>How does it know which tool to use?</dt><dd>We describe each tool to the model with a name and a description, and the model picks. You'll see it built live on Day 2.</dd>
+    <dt>Can it be wrong?</dt><dd>Yes. That's why it shows sources and why we inspect its steps.</dd>
+    <dt>How long will it take me to build this?</dt><dd>You'll watch it built live on Day 2, then build it yourself on Days 3 and 4.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 05 VOCAB 1 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Vocabulary</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Words you will hear all course · 1 of 2</div>
+    <h2>Four words to start</h2>
+    <div class="vocab">
+      <div class="vocab-head"><span></span><span>What it means</span><span>Think of it as</span><span>In AI</span></div>
+      <div class="vocab-row"><div class="word"><span class="num">01</span>LLM</div><div class="mean">A language model. Text goes in, text comes out.</div><div class="pic">A well-read writer with no phone or internet</div><div class="ai">ChatGPT, Claude, Llama: "Write a birthday wish" → it writes one</div></div>
+      <div class="vocab-row hot"><div class="word"><span class="num">02</span>Agent</div><div class="mean">An LLM that picks its own next steps, in a loop, until the job is done.</div><div class="pic">A helper who keeps going until finished</div><div class="ai">A coding assistant that fixes a bug and re-runs tests until they pass</div></div>
+      <div class="vocab-row"><div class="word"><span class="num">03</span>Workflow</div><div class="mean">Fixed steps that <i>you</i> wrote. The LLM does one piece of them.</div><div class="pic">A recipe</div><div class="ai">New email → LLM summary → posted to the team chat</div></div>
+      <div class="vocab-row"><div class="word"><span class="num">04</span>Tool</div><div class="mean">An action the model can ask for. Your code runs it.</div><div class="pic">A calculator you hand to someone</div><div class="ai">get_weather("Pokhara") → 21°C</div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:13 to 0:16</span></div><dl>
+    <dt>Is ChatGPT an LLM or an agent?</dt><dd>The model inside is an LLM. The product around it can behave like an agent when tools (like web search) are attached.</dd>
+    <dt>Which LLMs are not from OpenAI?</dt><dd>Claude, Llama, Gemini, Mistral and others. We use open models through Groq.</dd>
+    <dt>Is a tool the same as an API?</dt><dd>A tool is an action the model can request. Often it's a thin wrapper around an API, like a weather API.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 06 VOCAB 2 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Vocabulary</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Words you will hear all course · 2 of 2</div>
+    <h2>Four more</h2>
+    <div class="vocab">
+      <div class="vocab-head"><span></span><span>What it means</span><span>Think of it as</span><span>In AI</span></div>
+      <div class="vocab-row hot"><div class="word"><span class="num">05</span>Autonomy</div><div class="mean">How much the AI decides by itself, without being told each step.</div><div class="pic">Checklist vs "handle it"</div><div class="ai">A workflow decides nothing; an agent picks the tools and the order</div></div>
+      <div class="vocab-row"><div class="word"><span class="num">06</span>Orchestration</div><div class="mean">Coordinating the parts (LLM, tools, agents) so they work toward one goal.</div><div class="pic">A conductor and an orchestra</div><div class="ai">Code that runs search → summarise → email, and retries if a step fails</div></div>
+      <div class="vocab-row"><div class="word"><span class="num">07</span>State</div><div class="mean">What the agent knows and has done so far in this run.</div><div class="pic">A to-do list with ticks</div><div class="ai">Messages so far + "Kathmandu = 18°C" + step 3 of 10</div></div>
+      <div class="vocab-row"><div class="word"><span class="num">08</span>Trajectory</div><div class="mean">The full list of steps the agent took, in order.</div><div class="pic">A step-by-step receipt</div><div class="ai">think → get_weather("Kathmandu") → 18°C → … → answer</div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:16 to 0:18</span></div><dl>
+    <dt>Orchestration vs the agent loop?</dt><dd>Orchestration is the broad word for coordinating the parts. A fixed workflow, an agent loop, or a supervisor managing several agents are all kinds of orchestration.</dd>
+    <dt>State vs memory?</dt><dd>State is what the agent knows during one run. Memory (Week 3) is what is saved between runs.</dd>
+    <dt>Trajectory vs a log?</dt><dd>A trajectory is the log of an agent's steps: what it decided, which tool it called, and what came back.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 07 THE PROBLEM ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The problem</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">One LLM call</div>
+    <h2>Ask it something<br><em>live</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 360" style="margin-top:40px">
+      <rect class="box" x="0" y="90" width="520" height="180"/>
+      <text class="tx-n" x="260" y="165">"What's the weather in</text>
+      <text class="tx-n" x="260" y="210">Pokhara right now?"</text>
+      <line class="line" x1="520" y1="180" x2="690" y2="180" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="700" y="50" width="360" height="260"/>
+      <text class="tx-l white" x="880" y="150">LLM</text>
+      <text class="tx-s white" x="880" y="200" style="fill:#fff">Learned from old text</text>
+      <text class="tx-s white" x="880" y="236" style="fill:#fff">No internet · No clock</text>
+      <line class="line" x1="1060" y1="180" x2="1230" y2="180" marker-end="url(#arrow)"/>
+      <rect class="box-dark" x="1240" y="90" width="520" height="180"/>
+      <text class="tx-n white" x="1500" y="165" style="fill:#fff">A guess,</text>
+      <text class="tx-n white" x="1500" y="210" style="fill:#fff">or "I can't access live data"</text>
+    </svg>
+    <p class="caption step">Let's try it live with Groq.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:18 to 0:24</span></div><dl>
+    <dt>Why can't it just look it up?</dt><dd>It has no connection to anything outside its training text unless we give it a tool.</dd>
+    <dt>Then why did it answer with a number?</dt><dd>It can produce a plausible-sounding guess. That's called a hallucination, and it's why we need real data sources.</dd>
+    <dt>Does it know today's date?</dt><dd>Not by itself. Apps usually put the date into the prompt for it.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 08 WHY ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The problem</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Why one call isn't enough</div>
+    <h2>Three things<br>an LLM alone <em>can't</em> do</h2>
+    <div class="cards cols-3">
+      <div class="card"><div class="big-num">1</div><h3>See live data</h3><p>Weather, prices, news, your files. It only knows what it was trained on.</p><div class="ex"><b>Try</b>"What is the gold price today?"</div></div>
+      <div class="card"><div class="big-num">2</div><h3>Take actions</h3><p>It can write "send an email" but it cannot send one.</p><div class="ex"><b>Try</b>"Book me a table for 7 pm." It replies, but nothing gets booked.</div></div>
+      <div class="card"><div class="big-num">3</div><h3>Check its work</h3><p>One prompt in, one answer out. No second look, no retry.</p><div class="ex"><b>Try</b>"What is 4,817 × 2,936?" It may be wrong and never check.</div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:24 to 0:27</span></div><dl>
+    <dt>It can write code. Doesn't that count as an action?</dt><dd>Writing code is just text. Running that code is an action and needs a tool.</dd>
+    <dt>Can't I just paste the data into the prompt?</dt><dd>Yes, for simple cases. But then you decide what data is needed. An agent decides for itself when and what to fetch.</dd>
+    <dt>What is 4,817 × 2,936, then?</dt><dd>14,142,712. A calculator tool gets this exactly every time; a model guessing digits might not.</dd>
+    <dt>Can an LLM check its own work?</dt><dd>It can try if asked (a pattern called reflection, Week 2), but a single call has no second pass built in.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 09 THE FIX ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The problem</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The fix</div>
+    <h2>Give the model <em>tools</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 380" style="margin-top:24px">
+      <rect class="box-acc" x="0" y="100" width="380" height="180"/>
+      <text class="tx-l white" x="190" y="205">LLM</text>
+      <rect class="box" x="690" y="100" width="380" height="180"/>
+      <text class="tx-l" x="880" y="180">Your code</text>
+      <text class="tx-s" x="880" y="225">runs the tool</text>
+      <rect class="box-soft" x="1380" y="100" width="380" height="180"/>
+      <text class="tx-l" x="1570" y="180">Weather</text>
+      <text class="tx-s" x="1570" y="225">API</text>
+      <line class="line-acc" x1="380" y1="145" x2="690" y2="145" marker-end="url(#arrow-acc)"/>
+      <text class="tx-lbl" x="535" y="120">1 · asks</text>
+      <line class="line-acc" x1="1070" y1="145" x2="1380" y2="145" marker-end="url(#arrow-acc)"/>
+      <text class="tx-lbl" x="1225" y="120">2 · runs</text>
+      <line class="line" x1="1380" y1="235" x2="1070" y2="235" marker-end="url(#arrow)"/>
+      <line class="line" x1="690" y1="235" x2="380" y2="235" marker-end="url(#arrow)"/>
+      <text class="tx-lbl" x="880" y="330" style="fill:var(--text)">3 · result goes back to the model</text>
+    </svg>
+    <div class="ex-strip"><span class="lbl">Example</span>"Weather in Pokhara?" <span class="arr">→</span> model asks <code>get_weather("Pokhara")</code> <span class="arr">→</span> code calls the API <span class="arr">→</span> <code>21°C, clear</code> <span class="arr">→</span> "It's 21°C and clear."</div>
+    <p class="caption"><b>The model only asks.</b> Your code does the work, then hands the result back. <span style="font-size:22px">(Built-in tools, like a provider's web search, run on the provider's servers instead; the idea is the same.)</span></p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:27 to 0:30</span></div><dl>
+    <dt>So the AI doesn't run code?</dt><dd>Correct. Your program does. That's also a safety feature: you control what can run.</dd>
+    <dt>How does the model know what tools exist?</dt><dd>We list them in the request with names, descriptions, and parameters. You'll see this on Day 2.</dd>
+    <dt>Is this the same as "function calling"?</dt><dd>Yes. Tool calling and function calling mean the same thing here.</dd>
+    <dt>Do all tools run in our own code?</dt><dd>Your own tools do. Some providers also offer built-in tools, like Groq's browser search, that run on their servers. The idea is the same: the model asks, something runs it, and the result comes back.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 10 THREE SHAPES ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>LLM · Workflow · Agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Three shapes of an AI system</div>
+    <h2>LLM call → Workflow → <em>Agent</em></h2>
+    <div class="cards cols-3" style="margin-top:34px">
+      <div class="card">
+        <div class="k">01 · LLM call</div><h3>One step</h3>
+        <svg class="diagram" viewBox="0 0 520 220" style="margin-top:10px">
+          <rect class="box" x="0" y="75" width="110" height="70"/><text class="tx" x="55" y="120" style="font-size:22px">In</text>
+          <line class="line" x1="110" y1="110" x2="205" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box-acc" x="210" y="55" width="110" height="110"/><text class="tx white" x="265" y="119" style="font-size:24px">LLM</text>
+          <line class="line" x1="320" y1="110" x2="415" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box" x="410" y="75" width="110" height="70"/><text class="tx" x="465" y="120" style="font-size:22px">Out</text>
+        </svg>
+        <p>One prompt in, one answer out. No loop.</p>
+        <div class="ex"><b>e.g.</b>"Translate this sentence into Nepali."</div>
+      </div>
+      <div class="card">
+        <div class="k">02 · Workflow</div><h3>You set the steps</h3>
+        <svg class="diagram" viewBox="0 0 520 220" style="margin-top:10px">
+          <rect class="box" x="0" y="75" width="70" height="70"/><text class="tx" x="35" y="119" style="font-size:18px">In</text>
+          <line class="line" x1="70" y1="110" x2="116" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box-acc" x="120" y="75" width="70" height="70"/><text class="tx white" x="155" y="119" style="font-size:17px">LLM</text>
+          <line class="line" x1="190" y1="110" x2="236" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box-soft" x="240" y="75" width="70" height="70"/><text class="tx" x="275" y="119" style="font-size:16px">Code</text>
+          <line class="line" x1="310" y1="110" x2="356" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box-acc" x="360" y="75" width="70" height="70"/><text class="tx white" x="395" y="119" style="font-size:17px">LLM</text>
+          <line class="line" x1="430" y1="110" x2="466" y2="110" marker-end="url(#arrow)"/>
+          <rect class="box" x="470" y="75" width="50" height="70"/><text class="tx" x="495" y="119" style="font-size:15px">Out</text>
+        </svg>
+        <p>Fixed path, always the same order. The LLM is one step in it.</p>
+        <div class="ex"><b>e.g.</b>Every night: summarise new tickets, then email the team.</div>
+      </div>
+      <div class="card hot">
+        <div class="k">03 · Agent</div><h3>The model decides</h3>
+        <svg class="diagram" viewBox="0 0 520 220" style="margin-top:10px">
+          <rect class="box" x="0" y="35" width="100" height="60"/><text class="tx" x="50" y="73" style="font-size:20px">In</text>
+          <line class="line" x1="100" y1="65" x2="195" y2="65" marker-end="url(#arrow)"/>
+          <rect class="box-acc" x="200" y="20" width="120" height="90"/><text class="tx white" x="260" y="73" style="font-size:24px">LLM</text>
+          <line class="line" x1="320" y1="65" x2="415" y2="65" marker-end="url(#arrow)"/>
+          <rect class="box" x="420" y="35" width="100" height="60"/><text class="tx" x="470" y="73" style="font-size:20px">Out</text>
+          <rect class="box-soft" x="190" y="160" width="140" height="55"/><text class="tx" x="260" y="196" style="font-size:20px">Tools</text>
+          <line class="line-acc" x1="235" y1="110" x2="235" y2="160" marker-end="url(#arrow-acc)"/>
+          <line class="line-acc" x1="285" y1="160" x2="285" y2="110" marker-end="url(#arrow-acc)"/>
+          <text class="tx-s" x="430" y="196" style="font-size:20px">repeat until done</text>
+        </svg>
+        <p>Picks tools and next steps itself, looping until finished.</p>
+        <div class="ex"><b>e.g.</b>"Find a flight to Delhi under $200 and book it."</div>
+      </div>
+    </div>
+    <p class="caption" style="margin-top:34px;font-size:30px">Ask at every system: <b>who decides what happens next?</b> &nbsp;Nobody &middot; You &middot; The model</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:30 to 0:34</span></div><dl>
+    <dt>Is a workflow with an LLM still "AI"?</dt><dd>Yes. It uses an LLM, but you wrote the path.</dd>
+    <dt>What if the workflow has an if/else?</dt><dd>Still a workflow. The branching rules are yours, written in advance.</dd>
+    <dt>Is Zapier (or n8n) a workflow?</dt><dd>Yes. They are workflow builders, and many now include LLM steps.</dd>
+    <dt>Why is the flight example an agent?</dt><dd>The model has to search, compare, maybe search again, then decide to book. You can't fix those steps in advance.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 11 ANALOGY ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>LLM · Workflow · Agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">An everyday picture</div>
+    <h2>Two kinds of <em>employee</em></h2>
+    <div class="cards cols-2">
+      <div class="card">
+        <div class="k">Workflow</div><h3>The checklist employee</h3>
+        <p>"Do step 1, then step 2, then step 3." Same result every time.</p>
+        <div class="eg">+ Predictable &nbsp; + Cheap &nbsp; + Easy to test<br>− Gets stuck on anything unexpected</div>
+        <div class="ex"><b>Best for</b>Making the monthly salary slips</div>
+      </div>
+      <div class="card hot">
+        <div class="k">Agent</div><h3>The "get it done" employee</h3>
+        <p>"Here's the goal. Figure it out." Chooses the steps, adapts to surprises.</p>
+        <div class="eg">+ Flexible &nbsp; + Handles the unexpected<br>− Costs more &nbsp; − Less predictable &nbsp; − Can go wrong</div>
+        <div class="ex"><b>Best for</b>Planning a 3-day trip on a fixed budget</div>
+      </div>
+    </div>
+    <p class="caption">Both are useful. The skill is knowing <b>which one the job needs.</b></p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:34 to 0:36</span></div><dl>
+    <dt>Which one is cheaper?</dt><dd>Usually the workflow: fewer model calls and no wandering.</dd>
+    <dt>Can a workflow ever handle surprises?</dt><dd>Only the ones you planned for in advance.</dd>
+    <dt>Can I combine them?</dt><dd>Yes. Many real systems are workflows with one agent step inside.</dd>
+    <dt>Would you give a new employee full freedom to move money?</dt><dd>No, and that's the risk side of autonomy. Trust (and freedom) is earned step by step.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 12 COMPARISON TABLE ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>LLM · Workflow · Agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Side by side</div>
+    <h2>Workflow vs <em>agent</em></h2>
+    <table class="tbl">
+      <tr><th></th><th>Workflow</th><th class="acc">Agent</th></tr>
+      <tr><td>Who picks the steps?</td><td>You</td><td>The model</td></tr>
+      <tr><td>Predictable?</td><td>Yes</td><td>Less so</td></tr>
+      <tr><td>Cost &amp; speed</td><td>Lower, faster</td><td>Higher, slower</td></tr>
+      <tr><td>Handles surprises?</td><td>Poorly</td><td>Well</td></tr>
+      <tr><td>Easy to test?</td><td>Yes</td><td>Harder</td></tr>
+      <tr><td>Use when...</td><td>You know the steps in advance</td><td>You can't know the steps in advance</td></tr>
+      <tr><td>Example</td><td>Send the weekly sales report</td><td>Answer any customer question using docs + tools</td></tr>
+    </table>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:36 to 0:38</span></div><dl>
+    <dt>Why is an agent harder to test?</dt><dd>It can take a different path each run, so one test doesn't cover all its behaviour.</dd>
+    <dt>Why does an agent cost more?</dt><dd>More model calls (one per step), and the input grows as the history grows.</dd>
+    <dt>Is an agent slower?</dt><dd>Usually yes, because every loop waits for the model again.</dd>
+    <dt>Why is the customer-question example an agent?</dt><dd>Every question is different, so the agent must decide what to look up and which tool to use each time.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 13 TEST: LLM CALL ALONE ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Test it</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Same two questions · 1 of 3</div>
+    <h2>LLM call <em>alone</em></h2>
+    <p class="how">How it works: <b>one prompt in, one answer out.</b> No tools, no live data.</p>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Will it rain in Pokhara tomorrow?"</div>
+      <div class="term step"><span class="verdict bad">✗ Fails: no live data</span>
+        <div class="an">I don't have access to live weather data.</div>
+        <div class="an">Please check a weather service for tomorrow's forecast.</div>
+      </div>
+    </div>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Is Kathmandu or Pokhara better for a walk tomorrow?"</div>
+      <div class="term step"><span class="verdict bad">✗ Fails: a guess, not a forecast</span>
+        <div class="an">Both cities can be pleasant. Pokhara is often cooler near the lake,</div>
+        <div class="an">so it may be nicer for a walk.</div>
+        <div class="dim">(no forecast was checked)</div>
+      </div>
+    </div>
+    <div class="takeaway step"><span class="lbl">Takeaway</span>An LLM alone can talk about the world, but it can't look at it.</div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:38 to 0:39</span></div><dl>
+    <dt>But ChatGPT can answer weather questions!</dt><dd>Only when the app gives the model a search or weather tool. The plain model can't see live data.</dd>
+    <dt>Why did the second answer sound so sure?</dt><dd>Models write fluent text even when they're guessing. That's why a confident answer isn't proof it's right.</dd>
+    <dt>Is this real output?</dt><dd>These outputs are illustrative examples. Real replies vary, but the problem is the same.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 14 TEST: WORKFLOW ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Test it</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Same two questions · 2 of 3</div>
+    <h2><em>Workflow</em></h2>
+    <p class="how">Fixed steps we wrote: <b>find the city → get its forecast → LLM writes the answer.</b></p>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Will it rain in Pokhara tomorrow?"</div>
+      <div class="term step"><span class="verdict ok">✓ Works: the fixed steps fit</span>
+        <div class="th">step 1   city = "Pokhara"</div>
+        <div class="tl">step 2   get_weather("Pokhara")  &rarr; tomorrow: 70% chance of rain</div>
+        <div class="an">answer   Yes, rain is likely in Pokhara tomorrow (70%).</div>
+      </div>
+    </div>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Is Kathmandu or Pokhara better for a walk tomorrow?"</div>
+      <div class="term step"><span class="verdict bad">✗ Fails: only one city was extracted</span>
+        <div class="th">step 1   city = "Kathmandu"   <span class="dim">&larr; step 1 only finds one city</span></div>
+        <div class="tl">step 2   get_weather("Kathmandu")  &rarr; tomorrow: dry, 18°C</div>
+        <div class="an">answer   Kathmandu looks good for a walk.  <span class="dim">(Pokhara was never checked)</span></div>
+      </div>
+    </div>
+    <div class="takeaway step"><span class="lbl">Takeaway</span>Reliable when the steps are known. Question 2 needed a step we never wrote.</div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:39 to 0:41</span></div><dl>
+    <dt>Can't we just change step 1 to find two cities?</dt><dd>Yes, for this question. But the next new kind of question (three cities, or "compare with yesterday") breaks it again. When you keep adding steps for every new question, that's the sign an agent may fit better.</dd>
+    <dt>So are workflows bad?</dt><dd>No. For questions like the first one, the workflow is cheaper, faster, and more predictable than an agent.</dd>
+    <dt>Why did it pick Kathmandu and not Pokhara?</dt><dd>Step 1 was written to return one city, so it took the first one it found. The design caused the failure, not the model.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 15 TEST: AGENT ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Test it</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Same two questions · 3 of 3</div>
+    <h2><em>Agent</em></h2>
+    <p class="how">The model decides <b>which tool to call, and how many times,</b> until it can answer.</p>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Will it rain in Pokhara tomorrow?"</div>
+      <div class="term step"><span class="verdict ok">✓ Works: 1 tool call</span>
+        <div class="tl">[tool]    get_weather("Pokhara")  &rarr; tomorrow: 70% chance of rain</div>
+        <div class="an">[answer]  Yes, rain is likely in Pokhara tomorrow (70%).</div>
+      </div>
+    </div>
+    <div class="trial">
+      <div class="trial-q"><span class="lbl">Try</span>"Is Kathmandu or Pokhara better for a walk tomorrow?"</div>
+      <div class="term step"><span class="verdict ok">✓ Works: it chose to call the tool twice</span>
+        <div class="th">[think]   I need tomorrow's weather for both cities</div>
+        <div class="tl">[tool]    get_weather("Kathmandu")  &rarr; tomorrow: dry, 18°C</div>
+        <div class="tl">[tool]    get_weather("Pokhara")    &rarr; tomorrow: 70% chance of rain</div>
+        <div class="an">[answer]  Kathmandu: dry and 18°C, so it's better for a walk.</div>
+      </div>
+    </div>
+    <div class="takeaway step"><span class="lbl">Takeaway</span>Handles steps nobody planned. The price: more model calls and less predictable runs.</div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:41 to 0:43</span></div><dl>
+    <dt>How did it know to call the tool twice?</dt><dd>It read the question and the tool's description, and decided it needed both cities. Nobody wrote "call it twice".</dd>
+    <dt>So should we always use an agent?</dt><dd>No. For question 1 the workflow did the same job with fewer calls. For "What is 2 + 2?" an agent is pure overkill. Use the minimum autonomy that works.</dd>
+    <dt>What if it calls the tool 50 times?</dt><dd>That's why agents get a step limit (a bounded loop). We add it on Day 3.</dd>
+    <dt>Are these temperatures real?</dt><dd>No, they're illustrative examples to show the flow.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 16 SPOT THE AGENT ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Game</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Spot the agent</div>
+    <h2>LLM call, workflow, or <em>agent?</em></h2>
+    <div class="cards cols-2" style="margin-top:34px;gap:24px">
+      <div class="card" style="padding:26px 34px"><div class="k">Product 1</div><p style="color:var(--ink)">A chat box that answers your question from a single prompt.</p><div style="margin-top:14px;min-height:46px"><span class="chip ink step">Plain LLM call</span></div></div>
+      <div class="card" style="padding:26px 34px"><div class="k">Product 2</div><p style="color:var(--ink)">An email sorter: the LLM labels each email, then fixed rules file it.</p><div style="margin-top:14px;min-height:46px"><span class="chip ink step">Workflow</span></div></div>
+      <div class="card" style="padding:26px 34px"><div class="k">Product 3</div><p style="color:var(--ink)">A coding assistant that reads files, runs tests, fixes, and repeats until they pass.</p><div style="margin-top:14px;min-height:46px"><span class="chip step">Agent</span></div></div>
+      <div class="card" style="padding:26px 34px"><div class="k">Product 4</div><p style="color:var(--ink)">A travel helper that searches flights, compares, and rebooks if one is cancelled.</p><div style="margin-top:14px;min-height:46px"><span class="chip step">Agent</span></div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:43 to 0:45</span></div><dl>
+    <dt>Product 2: couldn't it be an agent?</dt><dd>If the model chose how to file each email using tools and loops, yes. Here the filing rules are fixed, so it's a workflow. The test is: who decides the next step?</dd>
+    <dt>Is a coding assistant always an agent?</dt><dd>When it reads files, runs tests and repeats on its own, yes. One that only autocompletes a line is a plain LLM call.</dd>
+    <dt>Is ChatGPT product 1?</dt><dd>A basic chat reply is. When it searches the web or runs code on its own, it's acting more like an agent.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 14 AUTONOMY STAIRCASE ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Autonomy</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The autonomy spectrum</div>
+    <h2>More freedom,<br>more <em>risk</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 540" style="margin-top:6px">
+      <rect class="st0" x="0"    y="400" width="340" height="110"/>
+      <rect class="st1" x="352"  y="310" width="340" height="200"/>
+      <rect class="st2" x="704"  y="220" width="340" height="290"/>
+      <rect class="st3" x="1056" y="130" width="340" height="380"/>
+      <rect class="st4" x="1408" y="40"  width="352" height="470"/>
+      <text class="tx-ex" x="170"  y="384">e.g. a °C → °F converter</text>
+      <text class="tx-ex" x="522"  y="294">e.g. an email labeler</text>
+      <text class="tx-ex" x="874"  y="204">e.g. our research agent</text>
+      <text class="tx-ex" x="1226" y="114">e.g. researcher + writer agents</text>
+      <text class="tx-ex" x="1584" y="26">e.g. works alone for days</text>
+      <text class="tx-l" x="170"  y="450">L0</text><text class="tx-s" x="170"  y="486">Plain code</text>
+      <text class="tx-l" x="522"  y="360">L1</text><text class="tx-s" x="522"  y="396">LLM workflow</text><text class="tx-s" x="522" y="428" style="font-size:21px">fixed steps</text>
+      <text class="tx-l" x="874"  y="270">L2</text><text class="tx-s" x="874"  y="306">Tool agent</text><text class="tx-s" x="874" y="338" style="font-size:21px">bounded loop</text>
+      <text class="tx-l white" x="1226" y="180">L3</text><text class="tx-s" x="1226" y="216" style="fill:#fff">Multi-agent</text><text class="tx-s" x="1226" y="248" style="font-size:21px;fill:#fff">coordination cost</text>
+      <text class="tx-l white" x="1584" y="90">L4</text><text class="tx-s" x="1584" y="126" style="fill:#fff">Long-running</text><text class="tx-s" x="1584" y="158" style="font-size:21px;fill:#fff">highest risk</text>
+    </svg>
+    <p class="caption"><b>Our focus:</b> L1 and L2 (Weeks 1 to 3). L3 and L4 come later, and only when needed.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:45 to 0:51</span></div><dl>
+    <dt>Where does a normal chatbot fit?</dt><dd>A single LLM call is the simplest form of L1: one fixed step with a model.</dd>
+    <dt>What's a real example of L4?</dt><dd>An agent that works for hours or days with little supervision on a big task. Powerful but risky, so it's rare.</dd>
+    <dt>Is L3 better than L2?</dt><dd>No. It adds coordination cost. We only use it when one agent isn't enough (Week 4).</dd>
+    <dt>Why is L0 on a list about AI?</dt><dd>To remind us that ordinary code is often the right answer.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 15 MINIMUM AUTONOMY ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Autonomy</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The golden rule of this course</div>
+    <div class="big-statement" style="font-size:62px">Use the <em>minimum autonomy</em> necessary to solve the problem reliably.</div>
+    <svg class="diagram" viewBox="0 0 1760 430" style="margin-top:30px">
+      <rect class="box" x="0" y="0" width="400" height="110"/>
+      <text class="tx" x="200" y="50" style="font-size:25px">Can plain code</text><text class="tx" x="200" y="82" style="font-size:25px">solve it?</text>
+      <rect class="box" x="453" y="0" width="400" height="110"/>
+      <text class="tx" x="653" y="50" style="font-size:25px">Can you write the</text><text class="tx" x="653" y="82" style="font-size:25px">steps in advance?</text>
+      <rect class="box" x="906" y="0" width="400" height="110"/>
+      <text class="tx" x="1106" y="50" style="font-size:25px">Is one agent with</text><text class="tx" x="1106" y="82" style="font-size:25px">tools enough?</text>
+      <rect class="box-dark" x="1360" y="0" width="400" height="110"/>
+      <text class="tx white" x="1560" y="50" style="font-size:25px">L3 · L4</text><text class="tx-s" x="1560" y="84" style="fill:#fff">rare, last resort</text>
+      <text class="tx-ex" x="1560" y="150">e.g. a team of agents</text>
+      <line class="line" x1="400" y1="55" x2="453" y2="55" marker-end="url(#arrow)"/>
+      <line class="line" x1="853" y1="55" x2="906" y2="55" marker-end="url(#arrow)"/>
+      <line class="line" x1="1306" y1="55" x2="1360" y2="55" marker-end="url(#arrow)"/>
+      <text class="tx-lbl" x="426" y="40" style="font-size:18px">no</text>
+      <text class="tx-lbl" x="880" y="40" style="font-size:18px">no</text>
+      <text class="tx-lbl" x="1333" y="40" style="font-size:18px">no</text>
+      <line class="line-acc" x1="200" y1="110" x2="200" y2="210" marker-end="url(#arrow-acc)"/><text class="tx-lbl" x="250" y="170" style="font-size:18px;text-anchor:start">yes</text>
+      <line class="line-acc" x1="653" y1="110" x2="653" y2="210" marker-end="url(#arrow-acc)"/><text class="tx-lbl" x="703" y="170" style="font-size:18px;text-anchor:start">yes</text>
+      <line class="line-acc" x1="1106" y1="110" x2="1106" y2="210" marker-end="url(#arrow-acc)"/><text class="tx-lbl" x="1156" y="170" style="font-size:18px;text-anchor:start">yes</text>
+      <rect class="box-soft" x="0" y="220" width="400" height="130"/><text class="tx-l" x="200" y="280">L0</text><text class="tx-s" x="200" y="318">just write code</text>
+      <rect class="box-soft" x="453" y="220" width="400" height="130"/><text class="tx-l" x="653" y="280">L1</text><text class="tx-s" x="653" y="318">LLM workflow</text>
+      <rect class="box-acc" x="906" y="220" width="400" height="130"/><text class="tx-l white" x="1106" y="280">L2</text><text class="tx-s" x="1106" y="318" style="fill:#fff">tool agent</text>
+      <text class="tx-ex" x="200" y="392">e.g. a °C → °F converter</text>
+      <text class="tx-ex" x="653" y="392">e.g. label support emails</text>
+      <text class="tx-ex" x="1106" y="392">e.g. research a company</text>
+    </svg>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:51 to 0:54</span></div><dl>
+    <dt>What does "reliably" mean?</dt><dd>It works correctly almost every time, not just in a demo.</dd>
+    <dt>Isn't an agent more impressive?</dt><dd>Yes, and that's the trap. A simple design that works every time beats an impressive one that sometimes fails.</dd>
+    <dt>What if I'm not sure which level?</dt><dd>Start lower. You can always move up when you hit a real limit.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 16 EXERCISE ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Autonomy</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Your turn</div>
+    <h2>Which level does each task need?</h2>
+    <div class="rows" style="margin-top:34px">
+      <div class="num-row"><div class="n">A</div><div style="flex:1"><div class="t" style="font-size:38px">Convert 30°C to Fahrenheit</div></div><div class="step"><span class="chip ink">L0 · plain code</span></div></div>
+      <div class="num-row"><div class="n">B</div><div style="flex:1"><div class="t" style="font-size:38px">Label every new support email: billing, bug, or other</div></div><div class="step"><span class="chip ink">L1 · LLM workflow</span></div></div>
+      <div class="num-row"><div class="n">C</div><div style="flex:1"><div class="t" style="font-size:38px">Research a company and write a report with sources</div></div><div class="step"><span class="chip">L2 · tool agent</span></div></div>
+    </div>
+    <p class="caption">Why? A is just maths. B has fixed steps. C needs searching and deciding what to read next.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:54 to 0:57</span></div><dl>
+    <dt>B uses an LLM. Why isn't it an agent?</dt><dd>The steps never change: read the email, choose a label. No tools, no decisions about what to do next.</dd>
+    <dt>Could C be a workflow?</dt><dd>Partly, if the sources were always the same. But deciding what to search and read next changes every time, so an agent fits.</dd>
+    <dt>Could A use an LLM?</dt><dd>It could, but it would be slower, cost money, and be less exact than one line of code (°F = °C × 9/5 + 32).</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 17 ANATOMY ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Anatomy of an agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The LLM is the brain</div>
+    <h2>Four parts make it an <em>agent</em></h2>
+    <div class="cards cols-4">
+      <div class="card hot"><div class="big-num">1</div><h3>Loop</h3><p>Think, act, observe, repeat.</p><div class="ex"><b>e.g.</b>Keeps going until both cities are checked</div></div>
+      <div class="card"><div class="big-num">2</div><h3>Tools</h3><p>The actions it is allowed to ask for.</p><div class="ex"><b>e.g.</b>get_weather(), search()</div></div>
+      <div class="card"><div class="big-num">3</div><h3>State</h3><p>What it has done and learned so far.</p><div class="ex"><b>e.g.</b>"Kathmandu = 18°C" is saved</div></div>
+      <div class="card"><div class="big-num">4</div><h3>Stop</h3><p>The rule for when to finish.</p><div class="ex"><b>e.g.</b>Answer is ready, or 10 steps used</div></div>
+    </div>
+    <p class="caption"><b>All four are needed for a reliable agent.</b> Week 1 builds all four. Examples are from the weather agent we build on Day 2.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:57 to 1:00</span></div><dl>
+    <dt>Where does the LLM fit in these four?</dt><dd>It's the thinker inside the loop. The four parts surround it.</dd>
+    <dt>Can an agent exist without tools?</dt><dd>It would just be a model talking to itself. Tools are what let it see or change the world.</dd>
+    <dt>Is "stop" the same as the final answer?</dt><dd>Related but not the same. Stop is the rule that decides when to finish, for example the model answers without asking for a tool, or a step limit is reached.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 18 THE LOOP ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Anatomy of an agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The agent loop</div>
+    <h2>Think → Act → Observe → <em>Check</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 560" style="margin-top:10px">
+      <rect class="box-acc" x="300" y="20" width="460" height="160"/>
+      <text class="tx-l white" x="530" y="85">Think</text><text class="tx-s" x="530" y="128" style="fill:#fff">The LLM decides what to do next</text>
+      <rect class="box" x="1000" y="20" width="460" height="160"/>
+      <text class="tx-l" x="1230" y="85">Act</text><text class="tx-s" x="1230" y="128">Ask for a tool call</text>
+      <rect class="box" x="1000" y="370" width="460" height="160"/>
+      <text class="tx-l" x="1230" y="435">Observe</text><text class="tx-s" x="1230" y="478">Read the tool's result</text>
+      <rect class="box" x="300" y="370" width="460" height="160"/>
+      <text class="tx-l" x="530" y="435">Check</text><text class="tx-s" x="530" y="478">Am I done? (stop condition)</text>
+      <line class="line-acc" x1="760" y1="100" x2="1000" y2="100" marker-end="url(#arrow-acc)"/>
+      <line class="line-acc" x1="1230" y1="180" x2="1230" y2="370" marker-end="url(#arrow-acc)"/>
+      <line class="line-acc" x1="1000" y1="450" x2="760" y2="450" marker-end="url(#arrow-acc)"/>
+      <line class="line-acc" x1="530" y1="370" x2="530" y2="180" marker-end="url(#arrow-acc)"/>
+      <text class="tx-lbl" x="505" y="285" style="text-anchor:end;font-size:20px">not done → loop</text>
+      <text class="tx-l" x="880" y="285" style="font-size:30px">↻ The loop</text>
+      <rect class="box-dark" x="0" y="385" width="210" height="130"/>
+      <text class="tx white" x="105" y="460">Answer</text>
+      <line class="line" x1="300" y1="450" x2="210" y2="450" marker-end="url(#arrow)"/>
+      <text class="tx-lbl" x="255" y="425" style="font-size:18px;fill:var(--text)">done</text>
+      <rect class="box-soft" x="1530" y="40" width="230" height="120"/><text class="tx" x="1645" y="110">Tools</text>
+      <line class="line" x1="1460" y1="100" x2="1530" y2="100" marker-end="url(#arrow)"/>
+      <rect class="box-soft" x="1530" y="390" width="230" height="120"/><text class="tx" x="1645" y="460">State</text>
+      <line class="line" x1="1460" y1="450" x2="1530" y2="450" marker-end="url(#arrow)"/>
+    </svg>
+    <div class="ex-strip" style="margin-top:18px"><span class="lbl">Example</span>Think: "I need Pokhara's weather" <span class="arr">→</span> Act: <code>get_weather("Pokhara")</code> <span class="arr">→</span> Observe: <code>21°C</code> <span class="arr">→</span> Check: done? yes <span class="arr">→</span> Answer</div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:00 to 1:07</span></div><dl>
+    <dt>Who runs the loop?</dt><dd>Our code runs it. The model is called inside it on each pass.</dd>
+    <dt>What if it never says "done"?</dt><dd>That's why we add a maximum number of steps (Day 3).</dd>
+    <dt>Is this the ReAct pattern?</dt><dd>It's the same idea (reason, act, observe). We name the patterns properly in Week 2.</dd>
+    <dt>Does the model remember earlier steps?</dt><dd>Only because we send the history back each time. That history is the state.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 19 WALKTHROUGH ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Anatomy of an agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">One run, step by step</div>
+    <h2>"Which is colder: Kathmandu or Pokhara?"</h2>
+    <table class="tbl trace" style="margin-top:26px">
+      <tr><th>Step</th><th>What happens</th><th>Part</th></tr>
+      <tr class="step"><td>1</td><td>I need the weather for both cities</td><td><span class="tag a">Think</span></td></tr>
+      <tr class="step"><td>2</td><td>get_weather("Kathmandu")</td><td><span class="tag">Act</span></td></tr>
+      <tr class="step"><td>3</td><td>Result: 18°C <span style="color:var(--soft);font-weight:500">(example)</span></td><td><span class="tag g">Observe</span></td></tr>
+      <tr class="step"><td>4</td><td>Still need Pokhara</td><td><span class="tag a">Think</span></td></tr>
+      <tr class="step"><td>5</td><td>get_weather("Pokhara")</td><td><span class="tag">Act</span></td></tr>
+      <tr class="step"><td>6</td><td>Result: 21°C <span style="color:var(--soft);font-weight:500">(example)</span></td><td><span class="tag g">Observe</span></td></tr>
+      <tr class="step"><td>7</td><td>Do I have enough? Yes → stop</td><td><span class="tag a">Check</span></td></tr>
+      <tr class="step"><td>8</td><td>"Kathmandu is colder (18°C vs 21°C)."</td><td><span class="tag a">Answer</span></td></tr>
+    </table>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:07 to 1:12</span></div><dl>
+    <dt>Why two weather calls instead of one?</dt><dd>The tool answers for one city at a time. Some models can request several calls at once (parallel tool calls), but we start with one at a time.</dd>
+    <dt>Are those temperatures real?</dt><dd>No, they're made-up examples to show the flow.</dd>
+    <dt>What if one call fails?</dt><dd>The error goes back to the model as a message, and it can try again or explain. Day 3.</dd>
+    <dt>What is this list of steps called?</dt><dd>A trajectory (vocabulary word 8). We log it in Day 3.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 20 WHY AGENTS FAIL ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Reality check</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Failure modes</div>
+    <h2>Why agent projects <em>fail</em></h2>
+    <div class="cards cols-3">
+      <div class="card"><div class="big-num">1</div><h3>Too much autonomy</h3><p>A workflow would have been enough, and more reliable.</p><div class="ex"><b>e.g.</b>An agent to rename 100 files. A 5-line script does it perfectly.</div><div class="eg">Fix: start low, climb only when needed.</div></div>
+      <div class="card"><div class="big-num">2</div><h3>No evaluation</h3><p>"It seemed fine in the demo" is not a quality bar.</p><div class="ex"><b>e.g.</b>Passed 2 test questions, failed the first real user.</div><div class="eg">Fix: test on real questions, many times.</div></div>
+      <div class="card"><div class="big-num">3</div><h3>Invisible failures</h3><p>No logs of what it did, so nobody knows why it failed.</p><div class="ex"><b>e.g.</b>Gave a wrong price, and nobody can see which search it used.</div><div class="eg">Fix: record every step (trajectory).</div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:12 to 1:18</span></div><dl>
+    <dt>How do we evaluate an agent?</dt><dd>Start with a list of real test questions and check the answers, many times. Proper evaluation comes in Week 5.</dd>
+    <dt>What does an "invisible failure" look like?</dt><dd>The agent gives a wrong answer and you can't tell which step went wrong, because nothing was recorded.</dd>
+    <dt>Do big companies have this problem too?</dt><dd>Yes, it's very common. That's why logging and testing matter so much.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 21 TOKENS COST KEYS ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Before we build</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Three practical things</div>
+    <h2>Tokens, limits, <em>keys</em></h2>
+    <div class="cards cols-3">
+      <div class="card"><div class="k">Tokens</div><h3>Pieces of text</h3><p>Models read and write in tokens, roughly ¾ of a word each in English. Cost and limits are counted in tokens.</p><div class="ex"><b>e.g.</b>100 words ≈ 130 tokens</div></div>
+      <div class="card"><div class="k">Rate limits</div><h3>Error 429</h3><p>Free tiers allow only so many requests per minute. Too many gives a "slow down" error. Agents loop, so they hit it faster.</p><div class="ex"><b>e.g.</b>30 calls in a few seconds → 429</div></div>
+      <div class="card hot"><div class="k">API keys</div><h3>Treat as a password</h3><p>Keep it in a <b>.env</b> file. Never paste it into code, slides, screenshots, or chat.</p><div class="ex"><b>e.g.</b>A key pushed to GitHub can be found and used by strangers</div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:18 to 1:23</span></div><dl>
+    <dt>Why do agents hit limits faster?</dt><dd>Each loop is another request, and the history gets longer every time.</dd>
+    <dt>What does 429 mean?</dt><dd>"Too Many Requests." Wait a little and retry. We handle this in code in Day 3.</dd>
+    <dt>I shared my key in a screenshot. What now?</dt><dd>Delete that key in the Groq console and create a new one. Anyone with the old key could use your account.</dd>
+    <dt>Is "¾ of a word" exact?</dt><dd>No, it's a rule of thumb for English. Other languages and code often use more tokens per word.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 22 RECAP ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Recap</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Remember these five things</div>
+    <h2>Day 1 in <em>one slide</em></h2>
+    <div class="rows" style="margin-top:28px">
+      <div class="num-row" style="padding:14px 0"><div class="n">1</div><div><div class="t" style="font-size:33px">An LLM alone can't see live data, take actions, or check itself</div><div class="d" style="font-size:22px;margin-top:4px">e.g. "Will it rain in Pokhara tomorrow?" only got a guess</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">2</div><div><div class="t" style="font-size:33px">Workflow = you set the steps. Agent = the model decides</div><div class="d" style="font-size:22px;margin-top:4px">e.g. the walk question broke the workflow, but the agent checked both cities</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">3</div><div><div class="t" style="font-size:33px">An agent has four parts: loop, tools, state, stop</div><div class="d" style="font-size:22px;margin-top:4px">e.g. the weather agent: keep going, get_weather(), save each result, stop at 10 steps</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">4</div><div><div class="t" style="font-size:33px">Use the minimum autonomy needed (L0 to L4)</div><div class="d" style="font-size:22px;margin-top:4px">e.g. a °C → °F converter needs plain code, not an agent</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">5</div><div><div class="t" style="font-size:33px">The model asks for tools; your code runs them</div><div class="d" style="font-size:22px;margin-top:4px">e.g. the model asks for get_weather("Pokhara"); our code calls the weather API</div></div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:23 to 1:25</span></div><dl>
+    <dt>Which point matters most?</dt><dd>Points 2 and 4: who decides the steps, and use the least autonomy that works.</dd>
+    <dt>Where can I review all this later?</dt><dd>Vocabulary is on slides 5 and 6, the workflow vs agent tests on slides 13 to 15, the autonomy levels on slides 17 and 18, and the agent loop on slide 21.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 23 SETUP + HOMEWORK ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Homework</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Do this before Day 2</div>
+    <h2>Get set up</h2>
+    <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:48px;margin-top:6px">
+      <ul class="check">
+        <li><div class="box"></div><div><div class="t">Groq account + API key</div><div class="d">console.groq.com (free tier)</div></div></li>
+        <li><div class="box"></div><div><div class="t">Install packages</div><div class="d">pip install groq python-dotenv requests</div></div></li>
+        <li><div class="box"></div><div><div class="t">Hello-world call</div><div class="d">Key in a .env file, then run the script</div></div></li>
+        <li><div class="box"></div><div><div class="t">Tavily key (by Day 3)</div><div class="d">tavily.com (free tier), for search</div></div></li>
+        <li><div class="box"></div><div><div class="t">Bring one question</div><div class="d">One an LLM alone can't answer,<br>e.g. "USD to NPR rate today?"</div></div></li>
+      </ul>
+      <div style="margin-top:30px">
+        <div class="term-label">.env</div>
+        <div class="code" style="font-size:24px;padding:18px 28px">GROQ_API_KEY=paste_your_key_here</div>
+        <div class="term-label" style="margin-top:22px">hello.py</div>
+        <div class="code" style="font-size:21px;padding:20px 28px"><span class="k">from</span> groq <span class="k">import</span> Groq
+<span class="k">from</span> dotenv <span class="k">import</span> load_dotenv
+load_dotenv()
+client = Groq()  <span class="c"># reads GROQ_API_KEY</span>
+r = client.chat.completions.create(
+    model=<span class="c">"openai/gpt-oss-120b"</span>,  <span class="c"># names change</span>
+    messages=[{"role": "user",
+               "content": "Say hello."}])
+print(r.choices[0].message.content)</div>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:25 to 1:28</span></div><dl>
+    <dt>'pip' is not recognized.</dt><dd>Python isn't on PATH. Reinstall Python and tick "Add python.exe to PATH", or use <code>python -m pip install ...</code>.</dd>
+    <dt>It says my API key is invalid.</dt><dd>Copy the key again with no spaces or quotes, and check the .env line has nothing extra.</dd>
+    <dt>It can't find my key.</dt><dd>The file must be named exactly <code>.env</code> (Windows may save it as .env.txt), sit next to your script, and the code must call <code>load_dotenv()</code>.</dd>
+    <dt>ModuleNotFoundError: groq</dt><dd>The package isn't installed for the Python you're running. Run the pip install line again.</dd>
+    <dt>Which model name do I use?</dt><dd>Use <b>openai/gpt-oss-120b</b>, as on the slide. If Groq has renamed it, pick a current model that supports tool use at console.groq.com.</dd>
+    <dt>Do I need the Tavily key now?</dt><dd>Get it by Day 3. Without it the search tool falls back to Wikipedia, which is weaker for news questions.</dd>
+    <dt>Can I use OpenAI instead?</dt><dd>The concepts are the same, but use Groq so your code matches the class.</dd>
+    <dt>What kind of question should I bring?</dt><dd>Anything that needs live data or an action: today's exchange rate, tomorrow's weather, the latest news headline, or "send this message to my team".</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 24 EXIT ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Exit question</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Write this on paper · 2 minutes</div>
+    <div class="big-statement" style="font-size:70px;margin-top:10px">An agent is <em>__________</em><br>and the difference from a workflow is <em>__________</em></div>
+    <div class="cards cols-2" style="margin-top:70px">
+      <div class="card dark"><div class="k">Next</div><h3>Day 2 · Live demo</h3><p>Watch the whole agent get built, start to finish. You build it yourself on Days 3 and 4.</p></div>
+      <div class="card"><div class="k">Bring</div><h3>Laptop + Groq key</h3><p>Python installed, hello-world working.</p></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:28 to 1:30</span></div><dl>
+    <dt>What's a good answer?</dt><dd>"An agent is an LLM that picks its own steps in a loop using tools, and the difference from a workflow is that in a workflow I fixed the steps in advance."</dd>
+    <dt>Do we write real code next time?</dt><dd>Day 2 is a live demo: you watch and ask questions. You write the code yourselves on Days 3 and 4.</dd>
+    <dt>What if I couldn't set up Groq?</dt><dd>Come early or message before class so we can fix it first.</dd>
+  </dl></aside>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 27</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>

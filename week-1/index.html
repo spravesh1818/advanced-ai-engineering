@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-week="1">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Agent foundations · Advgenai</title>
+<meta name="description" content="Week 1: agent foundations. Four days: theory, a live demo, and two hands-on days.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/themes.css">
+<script>try{if(localStorage.getItem("deck-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+</head>
+<body>
+<!-- makes the doodles' lines look hand-drawn -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../index.html"><span class="dot"></span>Advgenai</a>
+    <nav class="weeks-nav" aria-label="Weeks"><span class="label">week</span><a class="wpill cur" data-week="1" href="../week-1/index.html" title="Week 1 · Agent foundations">1</a><span class="wpill off" data-week="2" aria-disabled="true" title="Week 2 · Design patterns (coming soon)">2</span><span class="wpill off" data-week="3" aria-disabled="true" title="Week 3 · Context &amp; memory (coming soon)">3</span><span class="wpill off" data-week="4" aria-disabled="true" title="Week 4 · Multi-agent (coming soon)">4</span><span class="wpill off" data-week="5" aria-disabled="true" title="Week 5 · Production agents (coming soon)">5</span><span class="wpill off" data-week="6" aria-disabled="true" title="Week 6 · Voice agents (coming soon)">6</span></nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch between paper and chalkboard">☾ chalkboard</button>
+  </header>
+
+  <a class="back" href="../index.html">← all weeks</a>
+  <section class="hero small">
+    <div>
+      <p class="note">week 1 · four days · theme: the sketchbook</p>
+      <h1>Agent <mark>foundations</mark></h1>
+      <p class="lede">Loops, tools, state and limits. Day 1 is the ideas, Day 2 is a live demo, and Days 3 and 4 are hands-on.</p>
+      <div class="stats">
+        <span class="stat"><b>4</b> days</span>
+        <span class="stat"><b>6</b> hours</span>
+        <span class="stat">Python · Groq</span>
+      </div>
+    </div>
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </section>
+
+  <h2 class="section"><span>Pick a day</span></h2>
+  <div class="days">
+    <article class="day ready">
+      <div class="num"><small>Day</small><b>1</b><span class="mode">learn</span></div>
+      <div>
+        <h3>Foundations</h3>
+        <p class="blurb">What is an agent? Workflow vs agent, the autonomy spectrum, and why we use the minimum autonomy that works. No coding.</p>
+        <ul class="leave"><li>Explain agent vs workflow in your own words</li><li>Place any app on the autonomy ladder (L0 to L4)</li><li>Make your first Groq call and learn what each setting means</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn deck" href="class-1.html">Open deck →</a>
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-1/class-1.ipynb" data-colab="week-1/class-1.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+    <article class="day locked" aria-disabled="true">
+      <span class="soon">Coming soon</span>
+      <div class="num"><small>Day</small><b>2</b><span class="mode">watch</span></div>
+      <div>
+        <h3>Live demo</h3>
+        <p class="blurb">Watch the whole agent get built, start to finish: a simple LLM, then a workflow, then an agent, then an agent with many tools.</p>
+        <ul class="leave"><li>See one question answered at each of the four steps</li><li>Watch every tool call and its result print live</li><li>Know exactly what you will build yourself on Day 3</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook · soon</span></div>
+      </div>
+      <div class="actions">
+        <span class="btn deck off" aria-disabled="true">Open deck →</span>
+        <span class="btn colab off" aria-disabled="true">▶ Open in Colab</span>
+      </div>
+    </article>
+    <article class="day locked" aria-disabled="true">
+      <span class="soon">Coming soon</span>
+      <div class="num"><small>Day</small><b>3</b><span class="mode">build</span></div>
+      <div>
+        <h3>Build 1</h3>
+        <p class="blurb">In pairs: build the weather tool, the agent loop, state, limits, error handling and retries on rate limits.</p>
+        <ul class="leave"><li>A weather tool the agent calls on its own</li><li>A loop with step, time and per-tool limits</li><li>Retries with backoff when Groq says 429</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook · soon</span></div>
+      </div>
+      <div class="actions">
+        <span class="btn deck off" aria-disabled="true">Open deck →</span>
+        <span class="btn colab off" aria-disabled="true">▶ Open in Colab</span>
+      </div>
+    </article>
+    <article class="day locked" aria-disabled="true">
+      <span class="soon">Coming soon</span>
+      <div class="num"><small>Day</small><b>4</b><span class="mode">build</span></div>
+      <div>
+        <h3>Build 2</h3>
+        <p class="blurb">In pairs: add search, sources and citations, then test your agent on real questions and fix a failure.</p>
+        <ul class="leave"><li>Search that returns sources the agent can cite</li><li>An agent you have tested on real questions</li><li>One failure found, understood and fixed</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook · soon</span></div>
+      </div>
+      <div class="actions">
+        <span class="btn deck off" aria-disabled="true">Open deck →</span>
+        <span class="btn colab off" aria-disabled="true">▶ Open in Colab</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="cols">
+    <section class="box green">
+      <h3>By the end of the week you have</h3>
+      <ul class="tick">
+        <li>A research agent that chooses its own tools: weather, time, currency and web search</li>
+        <li>State, so it remembers what it has already done</li>
+        <li>Limits, so it stops on its own (steps, time, per tool)</li>
+        <li>Sources, so every answer says where it came from</li>
+      </ul>
+    </section>
+    <section class="box blue">
+      <h3>Before you start</h3>
+      <ol>
+        <li>Get a free key at <b>console.groq.com</b> → API Keys.</li>
+        <li>In Colab, click the 🔑 <b>Secrets</b> icon, add a secret named <code>GROQ_API_KEY</code>, paste your key, and switch <b>Notebook access</b> on.</li>
+        <li>Open the deck to follow along. In the deck: arrow keys move, <code>F</code> is fullscreen, <code>Q</code> shows likely questions, <code>T</code> switches to the chalkboard.</li>
+        <li>Open the notebook in Colab and run the cells from top to bottom.</li>
+      </ol>
+    </section>
+  </div>
+
+  <nav class="wnav" aria-label="Week navigation">
+    <a class="btn plain" href="../index.html">← all weeks</a>
+    <span class="btn plain off" aria-disabled="true">Next: week 2 · Design patterns →</span>
+  </nav>
+  <p class="foot">the next day opens when we get there ✎</p>
+</div>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

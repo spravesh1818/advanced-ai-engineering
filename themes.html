@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week themes · Advgenai</title>
+<meta name="description" content="The look of each of the six weeks: paper, colours, font, doodle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Architects+Daughter&family=Gloria+Hallelujah&family=Permanent+Marker&family=Special+Elite&family=Gochi+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/themes.css">
+<script>try{if(localStorage.getItem("deck-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+</head>
+<body>
+<!-- makes the doodles' lines look hand-drawn -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><span class="dot"></span>Advgenai</a>
+    <nav class="weeks-nav" aria-label="Weeks"><span class="label">week</span><a class="wpill" data-week="1" href="week-1/index.html" title="Week 1 · Agent foundations">1</a><span class="wpill off" data-week="2" aria-disabled="true" title="Week 2 · Design patterns (coming soon)">2</span><span class="wpill off" data-week="3" aria-disabled="true" title="Week 3 · Context &amp; memory (coming soon)">3</span><span class="wpill off" data-week="4" aria-disabled="true" title="Week 4 · Multi-agent (coming soon)">4</span><span class="wpill off" data-week="5" aria-disabled="true" title="Week 5 · Production agents (coming soon)">5</span><span class="wpill off" data-week="6" aria-disabled="true" title="Week 6 · Voice agents (coming soon)">6</span></nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch between paper and chalkboard">☾ chalkboard</button>
+  </header>
+
+  <a class="back" href="index.html">← all weeks</a>
+  <section class="hero small">
+    <div>
+      <p class="note">six weeks · six looks</p>
+      <h1>Week <mark>themes</mark></h1>
+      <p class="lede">Each week is its own place: its own paper, colours, heading font, bottom edge and doodle. They share the same hand-drawn parts, so the course still feels like one course. Press ☾ to see every theme on the chalkboard.</p>
+    </div>
+  </section>
+
+  <div class="panels">
+    <section class="panel" data-week="1">
+      <div>
+        <span class="note">week 1</span>
+        <h3>The Sketchbook</h3>
+        <p class="about">a notebook page: dotted paper, yellow highlighter and a red pen</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+      <div class="sample">
+        <span class="big">Agent <mark>foundations</mark></span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+    <section class="panel" data-week="2">
+      <div>
+        <span class="note">week 2</span>
+        <h3>The Blueprint</h3>
+        <p class="about">drafting paper with a grid: every pattern is drawn as a diagram</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)"><rect class="fill-b" x="140" y="18" width="140" height="56" rx="18"/><rect class="ink" x="140" y="18" width="140" height="56" rx="18"/><path class="ink" d="M210 74 L210 112"/><path class="ink" d="M198 100 L210 114 L222 100"/><path class="fill-y" d="M210 114 L300 178 L210 242 L120 178 Z"/><path class="ink" d="M210 114 L300 178 L210 242 L120 178 Z"/><path class="ink" d="M120 178 Q70 180 62 240"/><path class="ink" d="M50 228 L62 244 L76 230"/><path class="ink" d="M300 178 Q350 180 358 240"/><path class="ink" d="M346 228 L358 244 L372 230"/><rect class="fill-g" x="8" y="246" width="120" height="56" rx="16"/><rect class="ink" x="8" y="246" width="120" height="56" rx="16"/><rect class="fill-p" x="292" y="246" width="120" height="56" rx="16"/><rect class="ink" x="292" y="246" width="120" height="56" rx="16"/><path class="ink" d="M68 302 Q78 344 160 360"/><path class="ink" d="M352 302 Q342 344 260 360"/><rect class="fill-b" x="150" y="340" width="120" height="56" rx="18"/><rect class="ink" x="150" y="340" width="120" height="56" rx="18"/><path class="ink" d="M270 368 Q410 368 410 190 Q410 46 290 46"/><path class="ink" d="M300 34 L286 46 L300 60"/></g><text x="210" y="52" style="font-size:28px;text-anchor:middle">task</text><text x="210" y="188" style="font-size:28px;text-anchor:middle">route</text><text x="68" y="284" style="font-size:28px;text-anchor:middle">plan</text><text x="352" y="284" style="font-size:28px;text-anchor:middle">tools</text><text x="210" y="376" style="font-size:28px;text-anchor:middle">reflect</text><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">patterns, not magic!</text></svg>
+      <div class="sample">
+        <span class="big">Design <mark>patterns</mark></span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+    <section class="panel" data-week="3">
+      <div>
+        <span class="note">week 3</span>
+        <h3>The Index Cards</h3>
+        <p class="about">ruled cards, one idea per card: the memory of the course</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)" transform="translate(0 24)"><g transform="rotate(-9 160 190)"><rect class="fill-b" x="40" y="70" width="230" height="150" rx="10"/><rect class="ink" x="40" y="70" width="230" height="150" rx="10"/></g><g transform="rotate(5 160 190)"><rect class="fill-g" x="40" y="110" width="230" height="150" rx="10"/><rect class="ink" x="40" y="110" width="230" height="150" rx="10"/></g><rect class="fill-y" x="46" y="150" width="230" height="150" rx="10"/><rect class="ink" x="46" y="150" width="230" height="150" rx="10"/><path class="ink" d="M66 196 H256 M66 228 H256 M66 260 H220" style="stroke-width:3"/><path class="ink" d="M92 150 V300" style="stroke:var(--pen-red);stroke-width:4"/><circle class="fill-r" cx="161" cy="156" r="11"/><circle class="ink" cx="161" cy="156" r="11" style="stroke-width:4"/><path class="fill-b" d="M305 150 V300 Q305 324 355 324 Q405 324 405 300 V150 Z"/><path class="ink" d="M305 150 V300 Q305 324 355 324 Q405 324 405 300 V150"/><ellipse class="fill-b" cx="355" cy="150" rx="50" ry="18"/><ellipse class="ink" cx="355" cy="150" rx="50" ry="18"/><path class="ink" d="M305 208 Q355 232 405 208 M305 264 Q355 288 405 264" style="stroke-width:4"/><path class="ink" d="M190 44 Q290 -14 352 96" style="stroke-dasharray:3 14"/><path class="ink" d="M334 84 L354 100 L360 74"/></g><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">remembers!</text></svg>
+      <div class="sample">
+        <span class="big">Context &amp; <mark>memory</mark></span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+    <section class="panel" data-week="4">
+      <div>
+        <span class="note">week 4</span>
+        <h3>The Sticky Wall</h3>
+        <p class="about">a team whiteboard covered in sticky notes: many voices, one board</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)"><path class="ink" d="M180 157 L114 284"/><path class="ink" d="M240 157 L306 284"/><path class="ink" d="M142 336 L278 336"/><line class="ink" x1="210" y1="36" x2="210" y2="14"/><circle class="fill-r" cx="210" cy="10" r="10"/><circle class="fill-y" cx="210" cy="100" r="64"/><circle class="ink" cx="210" cy="100" r="64"/><circle class="dot" cx="188" cy="92" r="9"/><circle class="dot" cx="232" cy="92" r="9"/><path class="ink" d="M184 122 Q210 146 236 122"/><circle class="fill-b" cx="90" cy="336" r="52"/><circle class="ink" cx="90" cy="336" r="52"/><circle class="dot" cx="72" cy="328" r="7"/><circle class="dot" cx="108" cy="328" r="7"/><path class="ink" d="M70 352 Q90 368 110 352" style="stroke-width:4"/><circle class="fill-g" cx="330" cy="336" r="52"/><circle class="ink" cx="330" cy="336" r="52"/><circle class="dot" cx="312" cy="328" r="7"/><circle class="dot" cx="348" cy="328" r="7"/><path class="ink" d="M310 352 Q330 368 350 352" style="stroke-width:4"/><ellipse class="fill-p" cx="210" cy="250" rx="42" ry="26"/><ellipse class="ink" cx="210" cy="250" rx="42" ry="26" style="stroke-width:4"/><path class="ink" d="M196 272 L188 290 L214 276" style="stroke-width:4"/><circle class="dot" cx="190" cy="250" r="4.5"/><circle class="dot" cx="210" cy="250" r="4.5"/><circle class="dot" cx="230" cy="250" r="4.5"/></g><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">teamwork!</text></svg>
+      <div class="sample">
+        <span class="big"><mark>Multi</mark>-agent</span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+    <section class="panel" data-week="5">
+      <div>
+        <span class="note">week 5</span>
+        <h3>The Control Room</h3>
+        <p class="about">graph paper and hazard tape: the checklist before anything ships</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)"><path class="fill-y" d="M210 30 L340 80 L340 206 Q340 312 210 388 Q80 312 80 206 L80 80 Z"/><path class="ink" d="M210 30 L340 80 L340 206 Q340 312 210 388 Q80 312 80 206 L80 80 Z"/><path class="ink" d="M146 206 L196 262 L282 148" style="stroke-width:18"/><path class="ink" d="M362 34 l14 -14 M376 62 l24 0 M366 90 l14 14" style="stroke-width:4"/><path class="ink" d="M20 410 L70 410 L84 388 L102 428 L120 400 L134 410 L200 410" style="stroke-width:4"/></g><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">safe to ship!</text></svg>
+      <div class="sample">
+        <span class="big">Production <mark>agents</mark></span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+    <section class="panel" data-week="6">
+      <div>
+        <span class="note">week 6</span>
+        <h3>The Recording Booth</h3>
+        <p class="about">a studio at night: warm light, sound bars and a live microphone</p>
+        <div class="swatches" aria-hidden="true"><i style="background:var(--bg)" title="--bg"></i><i style="background:var(--hl-yellow)" title="--hl-yellow"></i><i style="background:var(--hl-pink)" title="--hl-pink"></i><i style="background:var(--hl-green)" title="--hl-green"></i><i style="background:var(--hl-blue)" title="--hl-blue"></i><i style="background:var(--pen-red)" title="--pen-red"></i><i style="background:var(--pen-blue)" title="--pen-blue"></i><i style="background:var(--text)" title="--text"></i></div>
+      </div>
+      <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)"><rect class="fill-y" x="160" y="24" width="100" height="190" rx="50"/><rect class="ink" x="160" y="24" width="100" height="190" rx="50"/><path class="ink" d="M160 84 H260 M160 120 H260 M160 156 H260" style="stroke-width:3"/><path class="ink" d="M118 160 Q118 266 210 266 Q302 266 302 160"/><path class="ink" d="M210 266 V350"/><rect class="fill-b" x="140" y="350" width="140" height="28" rx="12"/><rect class="ink" x="140" y="350" width="140" height="28" rx="12"/><path class="ink" d="M92 106 Q68 148 92 190"/><path class="ink" d="M60 82 Q22 148 60 214"/><path class="ink" d="M328 106 Q352 148 328 190"/><path class="ink" d="M360 82 Q398 148 360 214"/></g><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">can talk!</text></svg>
+      <div class="sample">
+        <span class="big"><mark>Voice</mark> agents</span>
+        <span class="btn deck">Open deck →</span>
+        <span class="btn colab">▶ Open in Colab</span>
+      </div>
+    </section>
+  </div>
+
+  <p class="foot">to give a deck its week's look: put <code>data-week="N"</code> on its &lt;html&gt; and load <code>themes.css</code> after the deck's CSS ✎</p>
+</div>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
