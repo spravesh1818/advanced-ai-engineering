@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Day 3: Build your own tools (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+<style>h2 + .code, h2 + div > .code { margin-top: 30px; }  /* air between a heading and a code block */</style>
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 1 · Day 3</div>
+  <div class="title-meta-right">90 min · You build</div>
+  <div class="geo">
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>Build your<br>own <em>tools</em></h1>
+    <p class="lede">Five tools. One trip-planner agent. You write four of the tools.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>I explain.<br>You build.</p></div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:00 to 0:02</span></div><dl>
+    <dt>Do we write the whole agent ourselves?</dt><dd>You write four tools and the system prompt. The first tool, search_web, is yesterday's and is already in the notebook.</dd><dt>Is it harder than Day 2?</dt><dd>You type more by yourself, but every cell has step-by-step hints and a check that tells you PASS or NOT YET.</dd><dt>Can we work in pairs?</dt><dd>You can help each other, but each person types and runs their own notebook.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Welcome</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">How today works</div>
+    <h2>Read. <em>Write.</em> Check.</h2>
+    <div class="cards cols-3">
+      <div class="card "><div class="k">1 · Read</div><h3>The TODO</h3><p>Every tool cell has a TODO with step-by-step hints. It names the functions to use, not the finished lines.</p></div>
+      <div class="card hot"><div class="k">2 · Write</div><h3>Your tool</h3><p>Type the code yourself and run the cell. A cell fails until the cells above it are done: run those first.</p></div>
+      <div class="card "><div class="k">3 · Check</div><h3>PASS or NOT YET</h3><p>Run the check cell under your tool. It calls your tool by hand and prints PASS, or NOT YET with a hint.</p></div>
+    </div>
+    <div class="ex-strip" style="margin-top:30px"><span class="lbl">Today's path</span> search then read <span class="arr">&rarr;</span> coordinates then weather <span class="arr">&rarr;</span> currency <span class="arr">&rarr;</span> the agent <span class="arr">&rarr;</span> limits and memory <span class="arr">&rarr;</span> class tests</div>
+    <p class="caption"><b>Stuck?</b> Read the hint again, ask a neighbour, then ask me.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:02 to 0:06</span></div><dl>
+    <dt>What if my check says NOT YET?</dt><dd>Read the hint under it. It names the most common mistake. Fix the tool cell, run it, then run the check again.</dd><dt>Can I look at the solution?</dt><dd>Try the hint first. The instructor has a finished copy with comments if you are really stuck.</dd><dt>Do I have to finish everything?</dt><dd>Aim for all four tools. The agent cells need your tools, so ask for help rather than skipping.</dd><dt>What did we learn yesterday?</dt><dd>A tool is a Python function with a docstring (first line inside), and it returns text. The model asks for a tool, our code runs it, and the model answers. An agent is a model, tools and a loop, and a thread id gives it memory.</dd><dt>How long is each part?</dt><dd>About 15 minutes for Part 1, 20 for Part 2, 10 for Part 3, 15 for Part 4, then limits, memory and the tests.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Setup</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Before we type</div>
+    <h2>Setup <em>check</em></h2>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:56px;margin-top:6px">
+      <ul class="check">
+        <li><div class="box"></div><div><div class="t">Groq key as a secret</div><div class="d">GROQ_API_KEY, Notebook access on. Runs the model</div></div></li>
+        <li><div class="box"></div><div><div class="t">Tavily key as a secret</div><div class="d">TAVILY_API_KEY from tavily.com. Only for reading pages</div></div></li>
+        <li><div class="box"></div><div><div class="t">Run the install and setup cells</div><div class="d">They are already written</div></div></li>
+      </ul>
+      <div style="margin-top:30px">
+        <div class="term-label">You should see</div>
+        <div class="term" style="font-size:28px;padding:26px 36px;line-height:1.55"><div class="an">Ready. Model: openai/gpt-oss-120b</div></div>
+        <p class="caption" style="margin-top:28px">Search needs no key: it uses DuckDuckGo. <b>Never type a key into the notebook.</b></p>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:06 to 0:10</span></div><dl>
+    <dt>Why a second key?</dt><dd>Reading a page is done by Tavily. Search stays free and keyless with DuckDuckGo.</dd><dt>It says No TAVILY_API_KEY found.</dt><dd>Add the secret with that exact name in Colab, switch Notebook access on, and run the setup cell again.</dd><dt>Where do I get the Tavily key?</dt><dd>tavily.com: sign up, then copy the key from the dashboard.</dd><dt>Is the Tavily free plan enough?</dt><dd>Check your Tavily account for the limits. Many students at once can use a lot of reads, so do not run the cells in a loop.</dd><dt>Is my key safe in Colab Secrets?</dt><dd>Yes, as long as you never paste it into a cell or share the notebook with the secret visible.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Goal</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">What we are building</div>
+    <h2>A <em>trip planner</em> agent</h2>
+    <div class="ex-strip" style="margin-top:22px"><span class="lbl">Ask</span> "I have 50,000 NPR and 3 days in Pokhara: weather, budget in USD, 3 things to do?"</div>
+    <div style="display:grid;grid-template-columns:1.7fr 1fr;gap:44px;margin-top:10px">
+      <div>
+        <div class="term-label" style="margin-top:14px">The tools you build</div>
+        <div class="rows" style="margin-top:0">
+          <div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div><div class="t" style="font-size:32px">extract_page</div><div class="d" style="margin-top:2px;font-size:25px">opens a link and returns the useful text</div></div></div>
+          <div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div><div class="t" style="font-size:32px">get_coordinates</div><div class="d" style="margin-top:2px;font-size:25px">city name to latitude and longitude</div></div></div>
+          <div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div><div class="t" style="font-size:32px">get_weather</div><div class="d" style="margin-top:2px;font-size:25px">weather at a latitude and longitude</div></div></div>
+          <div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div><div class="t" style="font-size:32px">convert_currency</div><div class="d" style="margin-top:2px;font-size:25px">live exchange rate and the maths</div></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <div class="term-label">Already given</div>
+        <div class="card dark"><div class="k">From Day 2</div><h3>search_web</h3><p>Finds pages: title, snippet and link.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:10 to 0:13</span></div><dl>
+    <dt>Which of these need a key?</dt><dd>Only extract_page (the Tavily key). The other services are free without a key.</dd><dt>Why is search_web given?</dt><dd>You wrote it yesterday, so we save the time. It is the same tool.</dd><dt>Why so many tools for one job?</dt><dd>Each tool does one thing, and the agent combines them. Small tools are easier to test than one big one.</dd><dt>Will the agent always use all five tools?</dt><dd>No. It uses only the tools the question needs. A weather question uses two. A trip question can use all five.</dd><dt>Why Pokhara?</dt><dd>Any city works. We use one place so that everyone can compare results.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Part 1 · Search, then read</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 1 · Tool 1</div>
+    <h2>Search <em>finds</em>. Extract <em>reads</em>.</h2>
+    <svg class="diagram" viewBox="0 0 1760 210" style="margin-top:30px">
+      <rect class="box" x="0" y="20" width="280" height="150"/>
+      <text class="tx-l" x="140" y="108" style="font-size:34px">Question</text>
+      <line class="line" x1="280" y1="95" x2="350" y2="95" marker-end="url(#arrow)"/>
+      <rect class="box" x="350" y="20" width="360" height="150"/>
+      <text class="tx-lbl" x="530" y="62" style="font-size:18px">GIVEN</text>
+      <text class="tx-l" x="530" y="112" style="font-size:32px">search_web</text><text class="tx-s" x="530" y="148" style="font-size:22px">a link and a snippet</text>
+      <line class="line" x1="710" y1="95" x2="780" y2="95" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="780" y="20" width="400" height="150"/>
+      <text class="tx-lbl white" x="980" y="62" style="font-size:18px;fill:#fff">YOU WRITE</text>
+      <text class="tx-l white" x="980" y="112" style="font-size:32px">extract_page</text><text class="tx-s" x="980" y="148" style="font-size:22px;fill:#fff">opens that link</text>
+      <line class="line" x1="1180" y1="95" x2="1250" y2="95" marker-end="url(#arrow)"/>
+      <rect class="box-dark" x="1250" y="20" width="510" height="150"/>
+      <text class="tx-l white" x="1505" y="102" style="font-size:32px">Text of the page</text><text class="tx-s" x="1505" y="142" style="font-size:22px;fill:#d1e7d8">then the answer, with the link</text>
+    </svg>
+    <div class="cards cols-3" style="margin-top:26px">
+      <div class="card hot"><div class="k">query=topic</div><h3>Only the useful parts</h3><p>A page can have 95,000 characters, mostly menus. With the topic, Tavily returns about 2,000.</p></div>
+      <div class="card "><div class="k">[:2500]</div><h3>A hard cap</h3><p>Keep at most 2500 characters. Every character costs tokens.</p></div>
+      <div class="card "><div class="k">One try, one except</div><h3>No if needed</h3><p>Bad links raise errors. One except returns an Error: text. A good tool never crashes.</p></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:13 to 0:17, then you code</span></div><dl>
+    <dt>Why only a snippet from search?</dt><dd>A search engine gives a summary of each result, not the page. The page text never reaches our program, so we need a second tool.</dd><dt>Why not one tool that does both?</dt><dd>Two small tools are easier to test, and the agent can skip the reading step when a snippet is enough.</dd><dt>What if the model invents a link?</dt><dd>extract_page returns an Error: text. The system prompt also says never to invent a link.</dd><dt>What does [:2500] mean?</dt><dd>Take only the first 2500 characters of the text, to keep the tokens we send to the model small.</dd><dt>Why is urls written as [url]?</dt><dd>Tavily can read many pages at once, so it expects a list, even for one link.</dd><dt>Why not check with if first?</dt><dd>The line after already fails in the bad cases: an unreachable link gives an empty list, so pages[0] raises an error. One except is shorter and catches cases we did not think of.</dd><dt>Isn't catching every Exception bad?</dt><dd>In big programs it can hide bugs. For a tool, the goal is to return a message the model can read, so it is the right trade.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Part 2 · Coordinates and weather</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 2 · Tools 2 and 3</div>
+    <h2>Coordinates, <em>then</em> weather</h2>
+    <svg class="diagram" viewBox="0 0 1760 250" style="margin-top:40px">
+      <rect class="box" x="0" y="30" width="250" height="170"/>
+      <text class="tx-l" x="125" y="126" style="font-size:34px">"Pokhara"</text>
+      <line class="line" x1="250" y1="115" x2="330" y2="115" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="330" y="30" width="410" height="170"/>
+      <text class="tx-lbl white" x="535" y="76" style="font-size:18px;fill:#fff">YOU WRITE</text>
+      <text class="tx-l white" x="535" y="128" style="font-size:32px">get_coordinates</text><text class="tx-s" x="535" y="168" style="font-size:22px;fill:#fff">city to numbers</text>
+      <line class="line" x1="740" y1="115" x2="820" y2="115" marker-end="url(#arrow)"/>
+      <rect class="box-soft" x="820" y="30" width="360" height="170"/>
+      <text class="tx-l" x="1000" y="108" style="font-size:30px">latitude 28.27</text><text class="tx-l" x="1000" y="152" style="font-size:30px">longitude 83.97</text>
+      <line class="line" x1="1180" y1="115" x2="1260" y2="115" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="1260" y="30" width="500" height="170"/>
+      <text class="tx-lbl white" x="1510" y="76" style="font-size:18px;fill:#fff">YOU WRITE</text>
+      <text class="tx-l white" x="1510" y="128" style="font-size:32px">get_weather</text><text class="tx-s" x="1510" y="168" style="font-size:22px;fill:#fff">numbers to weather</text>
+    </svg>
+    <p class="caption">A weather service does not understand a city name. It wants a <b>latitude and a longitude</b>. Two jobs, <b>two tools</b>, both from Open-Meteo (free, no key).</p>
+    <div class="takeaway"><span class="lbl">The agent chains them</span><span>The second call <b>needs the result of the first</b>. The model reads the numbers from the text, and must <b>never guess</b> them.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:30 to 0:34, then you code</span></div><dl>
+    <dt>What are latitude and longitude?</dt><dd>Two numbers that locate a place on the globe: how far north or south, and how far east or west.</dd><dt>Why not one tool that takes a city?</dt><dd>Two small tools are easier to test, and the coordinates tool can be reused later, for example for distances.</dd><dt>Why does the docstring of get_weather mention get_coordinates?</dt><dd>The model reads the docstring. It learns that it must call get_coordinates first to get the numbers.</dd><dt>What if the model guesses the numbers?</dt><dd>The weather would be for the wrong place. The system prompt says never to guess coordinates.</dd><dt>Why float for the inputs, and why round to 2 decimals?</dt><dd>Latitude and longitude have decimals. Two decimals is about one kilometre, which is enough for the weather and keeps the text short.</dd><dt>Why str(latitude)?</dt><dd>You cannot join a number to text with +. str() turns the number into text.</dd><dt>Why timeout=10?</dt><dd>If the service does not answer in 10 seconds, the request stops and the except returns an Error. Otherwise the agent could wait forever.</dd><dt>Can two tools run at the same time?</dt><dd>Yes, when neither needs the other's result. The agent can ask for the weather and the currency in one step.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Part 3 · Currency and checks</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 3 · Tool 4</div>
+    <h2>Rates and maths belong to <em>tools</em></h2>
+    <table class="tbl">
+      <tr><th>Question</th><th>Model alone</th><th class="acc">With convert_currency</th></tr>
+      <tr><td>Today's NPR to USD rate?</td><td>A guess from old training data</td><td>The live rate from the service</td></tr>
+      <tr><td>50,000 times 0.006485?</td><td>Predicts digits, can be wrong</td><td>Python multiplies exactly</td></tr>
+      <tr><td>A wrong currency code?</td><td>May invent a rate</td><td>No rate found: an Error: text</td></tr>
+    </table>
+    <div class="takeaway"><span class="lbl">Run the check</span><span>Under every tool is a check cell. It calls your tool by hand and prints <b>PASS</b> or <b>NOT YET</b>. A tool must pass before it goes into the agent.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:45 to 0:49, then you code</span></div><dl>
+    <dt>Why .upper()?</dt><dd>So that "usd" and "USD" both work. The model sometimes writes lowercase codes.</dd><dt>Does it support Nepali rupees?</dt><dd>Yes. NPR is one of the currencies in the service's rates, which is why we chose it.</dd><dt>Is the rate live?</dt><dd>It comes from an online service, so it is current enough for planning. It is not a second-by-second trading price.</dd><dt>Can't a good model do simple maths?</dt><dd>Often yes, but it is not guaranteed. A tool is exact every time and costs almost nothing.</dd><dt>Why test a tool by hand first?</dt><dd>It is far easier to fix a tool alone than inside an agent, where many things can go wrong at once.</dd><dt>What does 'NOT YET: write the tool' mean?</dt><dd>The cell above does not define the tool yet. Write it and run that cell first.</dd><dt>Why does the check also use a bad input?</dt><dd>A good tool never crashes. The second PASS proves it returns an Error: text.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Part 4 · The agent</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 4 · The agent</div>
+    <h2>The prompt is the <em>job description</em></h2>
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:44px;margin-top:14px">
+      <div class="rows" style="margin-top:0">
+        <div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500"><b>Who</b> it is, and today's date</div></div>
+        <div class="num-row step" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500"><b>Which tool</b> for which job</div></div>
+        <div class="num-row step" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500">The <b>order</b>: coordinates, then weather</div></div>
+        <div class="num-row step" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500"><b>Search, then read</b>. Never invent a link</div></div>
+        <div class="num-row step" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">5</div><div class="d" style="margin:0;color:var(--ink);font-weight:500">What to do on an <b>Error</b></div></div>
+      </div>
+      <div>
+        <div class="card hot" style="margin-top:6px"><div class="k">The model picks a tool by its docstring</div><h3>Say what, and where from</h3><div class="ex">Get today's weather at a latitude and longitude. Get the numbers from get_coordinates first.</div></div>
+      </div>
+    </div>
+    <div class="takeaway"><span class="lbl">Fix order</span><span>Wrong tool? Improve the <b>docstring</b>, then the <b>prompt</b>. Wrong answer? Look at <b>Tools used</b> first.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:55 to 1:00, then you code</span></div><dl>
+    <dt>Why so many rules?</dt><dd>Each rule guards against a mistake models can make: guessing coordinates, inventing links, asking for tools that do not exist, or adding old years to a search.</dd><dt>Why include today's date?</dt><dd>A model does not know the date. Without it, it adds old years to the search words.</dd><dt>Is a longer prompt always better?</dt><dd>No. Every line should fix a problem you have seen. Test, then add a rule.</dd><dt>Does the model read my code?</dt><dd>No. It sees only the tool's name, the docstring and the inputs.</dd><dt>What if two tools sound the same?</dt><dd>The model may pick the wrong one. Make each docstring clearly different.</dd><dt>Why doesn't the agent print each step like Day 2?</dt><dd>To keep the output short. The Tools used line in the tests gives you the order of the tools without extra noise.</dd><dt>Where does Tools used come from?</dt><dd>From the messages of the run: every message of type tool is a tool result, and it has the tool's name.</dd><dt>The agent asked for a tool that does not exist.</dt><dd>The model made a mistake. The cell prints Stopped early. Run it again.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Parts 5 and 6</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Parts 5 and 6 · Limits, memory and tests</div>
+    <h2>Bounded, with memory, <em>tested</em></h2>
+    <div class="ex-strip" style="margin-top:26px"><span class="lbl">Limit</span> recursion_limit=12 stops it after 12 steps &middot; <span class="lbl">Memory</span> same thread_id, same messages &middot; <span class="lbl">Stopped early</span> run the cell again</div>
+    <table class="tbl" style="margin-top:20px">
+      <tr><th>The class tests</th><th class="acc">Tools you expect</th></tr>
+      <tr><td>1 · What is the weather in Pokhara today?</td><td>get_coordinates, then get_weather</td></tr>
+      <tr><td>2 · Convert 50,000 NPR to USD, then to EUR.</td><td>convert_currency, twice</td></tr>
+      <tr><td>3 · 50,000 NPR, 3 days: weather, USD, 3 things to do</td><td>all five tools</td></tr>
+    </table>
+    <p class="caption"><b>Find one failure, change one thing</b>, run the test again, and write down what changed.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:10 to 1:17, then you code</span></div><dl>
+    <dt>What counts as a step?</dt><dd>Each trip between the model and the tools. Chained tools use more steps, which is why the limit is 12 today.</dd><dt>What if 12 is not enough?</dt><dd>The agent stops and prints Stopped early. Raise it a little, but ask why it needed so many steps.</dd><dt>Does memory cost anything?</dt><dd>Yes. The old messages are sent again each turn, so long chats use more tokens.</dd><dt>What happens if I restart the notebook?</dt><dd>The memory is gone. InMemorySaver keeps it only in the computer's memory.</dd><dt>Where is thread_id written?</dt><dd>In the config: thread_id sits inside configurable, and recursion_limit is beside it.</dd><dt>Why the same questions for everyone?</dt><dd>So we can compare results and fix a common problem once.</dd><dt>What if the page was not useful?</dt><dd>Change the search words in the question, or let the agent try one other link, as the prompt says.</dd><dt>Why does the search sometimes fail?</dt><dd>The free DuckDuckGo search refuses requests when many are made at once. The tool tries twice, and then returns an Error: text. Wait a little and run again.</dd><dt>A different answer each run. Is it broken?</dt><dd>No. The model and the web change between runs. The numbers should match, the wording will not.</dd><dt>Rate limit message?</dt><dd>Free key limit. Wait a minute, then run again.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Wrap-up</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Today you built</div>
+    <h2>Four <em>ideas</em>, then Day 4</h2>
+    <div class="cards cols-2">
+      <div class="card "><div class="k">1 · Search, then read</div><h3>Two tools</h3><p>search_web finds a link. extract_page opens it. The agent passes the link along.</p></div>
+      <div class="card hot"><div class="k">2 · Chaining</div><h3>Dependent calls</h3><p>get_weather needs the numbers from get_coordinates. The model reads them.</p></div>
+      <div class="card "><div class="k">3 · Tools do the maths</div><h3>Live data</h3><p>Rates and numbers come from a tool, never from the model's memory.</p></div>
+      <div class="card "><div class="k">4 · Prompt, limits, memory</div><h3>A bounded agent</h3><p>Rules that fix bugs, a step limit, and a thread id for follow-ups.</p></div>
+    </div>
+    <div class="ex-strip" style="margin-top:18px"><span class="lbl">Day 4</span> save a report with sources &middot; a checker for the plan &middot; five tests, one that should fail</div>
+    <p class="caption"><b>Bring</b> your finished notebook tomorrow.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">1:25 to 1:30</span></div><dl>
+    <dt>What is the one sentence to remember?</dt><dd>An agent can chain small tools, each with one job, as long as each tool has a clear docstring and returns text, even on errors.</dd><dt>Which part was the hardest?</dt><dd>Usually the chain: the model must read numbers from one result and pass them to the next tool.</dd><dt>What if I did not finish today?</dt><dd>Ask for the finished notebook after class. You need working tools before Day 4.</dd><dt>Do we keep the same agent?</dt><dd>Yes. Day 4 adds tools and checks to the same trip planner.</dd><dt>Will there be a grade?</dt><dd>A short checklist: working tools, a system prompt, an Error path, a step limit, memory, and three tests with results.</dd>
+  </dl></aside>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 10</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>
