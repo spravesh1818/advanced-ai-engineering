@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-week="2">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Day 2: Parallel work and orchestrator-worker (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Architects+Daughter&family=Gloria+Hallelujah&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+<link rel="stylesheet" href="../assets/css/themes.css">
+<style>h2 + .code, h2 + div > .code { margin-top: 30px; }  /* air between a heading and a code block */
+#notes-panel, #btn-notes { display: none !important; }  /* the Q&A notes live in the presenter deck only */</style>
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 2 · Day 2</div>
+  <div class="title-meta-right">90 min · You build</div>
+  <div class="geo">
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>Many hands,<br><em>one</em> answer</h1>
+    <p class="lede">Parallelization and orchestrator-worker: steps that run at the same time, and a planner that starts the workers.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>Split. Work.<br>Join.</p></div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Parallelization</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 1 · fixed steps, side by side</div>
+    <h2>Three sides of <em>one</em> question</h2>
+    <svg class="diagram" viewBox="0 0 1760 340" style="margin-top:10px">
+      <rect class="box" x="0" y="120" width="220" height="100"/>
+      <text class="tx-l" x="110" y="182" style="font-size:30px">START</text>
+      <path class="line" d="M220 150 L420 60" marker-end="url(#arrow)"/>
+      <line class="line" x1="220" y1="170" x2="420" y2="170" marker-end="url(#arrow)"/>
+      <path class="line" d="M220 190 L420 280" marker-end="url(#arrow)"/>
+      <rect class="box" x="420" y="20" width="380" height="80"/>
+      <text class="tx-l" x="610" y="72" style="font-size:28px">find_pros</text>
+      <rect class="box" x="420" y="130" width="380" height="80"/>
+      <text class="tx-l" x="610" y="182" style="font-size:28px">find_cons</text>
+      <rect class="box" x="420" y="240" width="380" height="80"/>
+      <text class="tx-l" x="610" y="292" style="font-size:28px">find_costs</text>
+      <path class="line" d="M800 60 L1000 150" marker-end="url(#arrow)"/>
+      <line class="line" x1="800" y1="170" x2="1000" y2="170" marker-end="url(#arrow)"/>
+      <path class="line" d="M800 280 L1000 190" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="1000" y="110" width="380" height="120"/>
+      <text class="tx-l white" x="1190" y="182" style="font-size:30px">aggregator</text>
+      <line class="line" x1="1380" y1="170" x2="1500" y2="170" marker-end="url(#arrow)"/>
+      <text class="tx-l" x="1580" y="180" style="font-size:30px">END</text>
+    </svg>
+    <p class="caption"><b>Three edges from START</b>: the three nodes start together. <b>Three edges into the aggregator</b>: it waits for all three.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Parallel in code</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">No new block</div>
+    <h2>Parallel is just <em>edges</em></h2>
+    <div class="code" style="font-size:26px;padding:28px 38px">builder.add_edge(START, "find_pros")         <span class="c"># three edges from START</span>
+builder.add_edge(START, "find_cons")
+builder.add_edge(START, "find_costs")
+builder.add_edge("find_pros", "aggregator")  <span class="c"># three edges into the aggregator</span>
+builder.add_edge("find_cons", "aggregator")
+builder.add_edge("find_costs", "aggregator")
+builder.add_edge("aggregator", END)</div>
+    <div class="takeaway"><span class="lbl">Each node writes its own key</span><span><code>pros</code>, <code>cons</code> and <code>costs</code> are different keys, so the three nodes never overwrite each other.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 1</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 1 · build it yourself · about 12 minutes</div>
+    <h2>Add a <em>fourth</em> side</h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself under <b>Classwork 1</b>: a new parallel graph with four sides.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Reuse find_pros, find_cons and find_costs. Write <code>FourState</code>, <code>find_risks</code> and a new aggregator.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Four edges from START, four into the aggregator. Compile it as <code>four_sides</code>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Run the check.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>The run lists 3 risks, and the summary uses them. Finished early? Draw the graph.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Orchestrator-worker</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 2 · the steps are not known in advance</div>
+    <h2>One plan, many <em>workers</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 380" style="margin-top:10px">
+      <rect class="box" x="0" y="130" width="260" height="110"/>
+      <text class="tx-l" x="130" y="196" style="font-size:32px">Question</text>
+      <line class="line" x1="260" y1="185" x2="340" y2="185" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="340" y="110" width="330" height="150"/>
+      <text class="tx-lbl white" x="505" y="158" style="font-size:18px;fill:#fff">ORCHESTRATOR</text>
+      <text class="tx-l white" x="505" y="212" style="font-size:32px">make_plan</text>
+      <path class="line" d="M670 150 L820 60" marker-end="url(#arrow)"/>
+      <line class="line" x1="670" y1="185" x2="820" y2="185" marker-end="url(#arrow)"/>
+      <path class="line" d="M670 220 L820 310" marker-end="url(#arrow)"/>
+      <text class="tx-s" x="745" y="130" style="font-size:22px">Send</text>
+      <rect class="box" x="820" y="20" width="420" height="90"/>
+      <text class="tx-l" x="1030" y="78" style="font-size:28px">research_step 1</text>
+      <rect class="box" x="820" y="140" width="420" height="90"/>
+      <text class="tx-l" x="1030" y="198" style="font-size:28px">research_step 2</text>
+      <rect class="box" x="820" y="262" width="420" height="90"/>
+      <text class="tx-l" x="1030" y="320" style="font-size:28px">research_step 3</text>
+      <path class="line" d="M1240 65 L1360 170" marker-end="url(#arrow)"/>
+      <line class="line" x1="1240" y1="185" x2="1360" y2="185" marker-end="url(#arrow)"/>
+      <path class="line" d="M1240 307 L1360 200" marker-end="url(#arrow)"/>
+      <rect class="box-soft" x="1360" y="130" width="400" height="110"/>
+      <text class="tx-l" x="1560" y="196" style="font-size:30px">write_brief</text>
+    </svg>
+    <p class="caption">The <b>plan</b> decides how many workers run, at run time. Each worker does <b>one search and one model call</b>.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Send and a reducer</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Two LangGraph blocks</div>
+    <h2><em>Send</em> starts workers. A <em>reducer</em> joins notes.</h2>
+    <div style="display:grid;grid-template-columns:1.45fr 1fr;gap:36px;margin-top:6px">
+      <div><div class="code" style="font-size:20px;padding:22px 26px"><span class="k">class</span> State(TypedDict):
+    question: str
+    steps: list[str]
+    notes: Annotated[list, operator.add]       <span class="c"># a reducer: workers ADD notes</span>
+    brief: str
+
+<span class="k">def</span> assign_workers(state: State):
+    workers = []
+    <span class="k">for</span> step <span class="k">in</span> state["steps"]:
+        workers.append(Send("research_step", {"step": step}))
+    <span class="k">return</span> workers
+
+builder.add_conditional_edges("make_plan", assign_workers, ["research_step"])</div></div>
+      <div>
+        <div class="cards cols-1">
+          <div class="card "><div class="k">Send</div><h3>One worker for each step</h3><p><code>Send(node, input)</code> starts one copy of a node with its own small input.</p></div>
+          <div class="card hot"><div class="k">operator.add</div><h3>Add, not replace</h3><p>Without it, each worker would <b>overwrite</b> the last note.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The cost</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Parallel is fast. The free plan is small.</div>
+    <h2>Every step is a <em>worker</em></h2>
+    <table class="tbl">
+      <tr><th>Plan</th><th>Workers</th><th class="acc">Tokens (our test)</th></tr>
+      <tr><td>3 steps</td><td>3 searches, 3 model calls</td><td>about 4,000 for the whole run</td></tr>
+      <tr><td>5 steps</td><td>5 searches, 5 model calls</td><td>more, in proportion</td></tr>
+    </table>
+    <div class="ex-strip" style="margin-top:28px"><span class="lbl">Speed limit</span> the workers run together and can pass <b>8,000 tokens a minute</b>. Then use <code>{"max_concurrency": 1}</code>: one worker at a time.</div>
+    <div class="takeaway"><span class="lbl">You choose the size</span><span>A bigger plan gives more detail, and costs more. Say the number of steps in the <b>Plan description</b>.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 2</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 2 · build it yourself · about 22 minutes</div>
+    <h2>A trip <em>planner</em></h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself under <b>Classwork 2a</b> and <b>2b</b>: orchestrator-worker, no web search.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">2a: a class <code>Days</code> and <code>day_planner</code>, then its check.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">2b: two states (with the reducer), three nodes, <code>send_days</code>, and the graph <code>trip_planner</code>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Run the last check.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>3 days, 3 day plans, and one plan from Day 1 to Day 3. Finished early? A 5-day trip, with the token meter.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Wrap-up</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Today you built</div>
+    <h2>Work that runs <em>side by side</em></h2>
+    <div class="cards cols-3">
+      <div class="card "><div class="k">1 · Parallel</div><h3>Fixed sides</h3><p>Several edges from START, several edges into one node.</p></div>
+      <div class="card hot"><div class="k">2 · Orchestrator</div><h3>A plan</h3><p>Structured output makes a list of steps your code can read.</p></div>
+      <div class="card "><div class="k">3 · Workers</div><h3>Send + reducer</h3><p>One worker for each step, and a reducer that adds their notes.</p></div>
+    </div>
+    <div class="ex-strip" style="margin-top:28px"><span class="lbl">Day 3</span> the <b>evaluator-optimizer</b>: one call writes, another grades it, and the graph <b>loops</b></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 09</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>

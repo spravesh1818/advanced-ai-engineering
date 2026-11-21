@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-week="2">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Day 3: Evaluator-optimizer (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Architects+Daughter&family=Gloria+Hallelujah&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+<link rel="stylesheet" href="../assets/css/themes.css">
+<style>h2 + .code, h2 + div > .code { margin-top: 30px; }  /* air between a heading and a code block */
+#notes-panel, #btn-notes { display: none !important; }  /* the Q&A notes live in the presenter deck only */</style>
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 2 · Day 3</div>
+  <div class="title-meta-right">90 min · You build</div>
+  <div class="geo">
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>Read your<br><em>own</em> draft</h1>
+    <p class="lede">The evaluator-optimizer: one call writes, another grades it, and the graph loops until it passes.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>Write. Grade.<br>Fix. Stop.</p></div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The loop</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">LangGraph docs · Evaluator-optimizer</div>
+    <h2>Write, grade, <em>fix</em></h2>
+    <svg class="diagram" viewBox="0 0 1760 380" style="margin-top:10px">
+      <rect class="box" x="0" y="90" width="300" height="130"/>
+      <text class="tx-l" x="150" y="165" style="font-size:32px">Notes</text>
+      <line class="line" x1="300" y1="155" x2="380" y2="155" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="380" y="90" width="330" height="130"/>
+      <text class="tx-lbl white" x="545" y="132" style="font-size:18px;fill:#fff">OPTIMIZER</text>
+      <text class="tx-l white" x="545" y="182" style="font-size:32px">write_draft</text>
+      <line class="line" x1="710" y1="155" x2="790" y2="155" marker-end="url(#arrow)"/>
+      <rect class="box" x="790" y="90" width="400" height="130"/>
+      <text class="tx-lbl" x="990" y="132" style="font-size:18px">EVALUATOR</text>
+      <text class="tx-l" x="990" y="182" style="font-size:32px">grade_draft</text>
+      <line class="line" x1="1190" y1="155" x2="1270" y2="155" marker-end="url(#arrow)"/>
+      <rect class="box-soft" x="1270" y="90" width="260" height="130"/>
+      <text class="tx-l" x="1400" y="165" style="font-size:30px">pass?</text>
+      <path class="line" d="M1530 155 L1640 155" marker-end="url(#arrow)"/>
+      <text class="tx-s" x="1660" y="150" style="font-size:24px">END</text>
+      <path class="line" d="M1400 220 L1400 320 L545 320 L545 225" marker-end="url(#arrow-acc)"/>
+      <text class="tx-s" x="980" y="360" style="font-size:24px">fail: back to the writer, with the feedback</text>
+    </svg>
+    <p class="caption">A loop is a <b>conditional edge that goes back</b>. We add a <b>limit</b> the docs leave out: after 3 attempts the loop stops anyway.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The evaluator</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 1 · structured output again</div>
+    <h2>A grade and the <em>feedback</em></h2>
+    <div class="code" style="font-size:23px;padding:28px 38px"><span class="k">class</span> Feedback(BaseModel):
+    grade: Literal["pass", "fail"] = Field(
+        description="pass only if every fact in the draft is in the notes, and every fact has its link")
+    feedback: str = Field(description="If the draft fails, say exactly what to fix")
+
+evaluator = llm.with_structured_output(Feedback, method="json_schema", strict=True)</div>
+    <p class="caption">The <b>rule</b> lives in the description of <code>grade</code>. You test the evaluator on a <b>bad</b> and a <b>good</b> draft before you trust it.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 1</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 1 · build it yourself · about 10 minutes</div>
+    <h2>Try to <em>fool</em> the evaluator</h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Under <b>Classwork 1</b>, write two tricky drafts yourself: one with no link, one with a changed number.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Grade each with <code>evaluator</code>, like CHECK 1, and print the grade and the feedback.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">If one passes, make the rule stricter and run again.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>You printed both grades, and you know which trick your evaluator misses.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The rule</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The most important line</div>
+    <h2>A rule the model can <em>check</em></h2>
+    <table class="tbl">
+      <tr><th>Vague</th><th class="acc">Checkable</th></tr>
+      <tr><td>Be accurate</td><td>Every fact is in the notes</td></tr>
+      <tr><td>Use sources</td><td>Every fact has its link</td></tr>
+      <tr><td>Be short</td><td>Every sentence has at most 20 words</td></tr>
+    </table>
+    <div class="takeaway"><span class="lbl">A kind evaluator is useless</span><span>Ask for 'good quality' and it passes everything. Make the rule <b>specific</b>, so the evaluator can say exactly what is wrong.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The loop in code</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 2 · two exits</div>
+    <h2>A pass, or the <em>limit</em></h2>
+    <div class="code" style="font-size:21px;padding:22px 28px"><span class="k">def</span> write_draft(state: State):
+    prompt = f"Answer ... Use only these notes: {state['notes']}"
+    <span class="k">if</span> state.get("feedback", ""):
+        prompt = prompt + f"\nFix this problem: {state['feedback']}"
+    msg = llm.invoke(prompt)
+    <span class="k">return</span> {"draft": msg.content, "attempts": state.get("attempts", 0) + 1}
+
+<span class="k">def</span> route_draft(state: State):
+    <span class="k">if</span> state["grade"] == "pass" or state["attempts"] &gt;= 3:
+        <span class="k">return</span> "Accepted"
+    <span class="k">return</span> "Rejected + Feedback"
+
+builder.add_conditional_edges("grade_draft", route_draft,
+    {"Accepted": END, "Rejected + Feedback": "write_draft"})</div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Was it worth it?</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 3 · measure the loop</div>
+    <h2>A grade has a <em>price</em></h2>
+    <table class="tbl">
+      <tr><th>Run</th><th>Calls</th><th class="acc">Tokens (our test)</th></tr>
+      <tr><td>good first draft</td><td>write, grade</td><td>about 1,100</td></tr>
+      <tr><td>repair a bad draft</td><td>write, grade, and again for each fix</td><td>more for each round</td></tr>
+    </table>
+    <div class="takeaway"><span class="lbl">When is the loop worth it?</span><span>When a wrong answer is <b>expensive</b>: facts a customer will read. Not for quick, low-risk answers.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 2</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 2 · build it yourself · about 30 minutes</div>
+    <h2>Your own loop: an email <em>improver</em></h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself under <b>Classwork 2a</b> and <b>2b</b>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">2a: a class <code>EmailGrade</code> with your rule (polite, at most 80 words, ends with a question) and <code>email_grader</code>. Run its check.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">2b: a state, a writer node, a grader node, a gate with a limit of 3, and the graph <code>email_loop</code>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Run the last check.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>The loop ends with <b>pass</b> in 1 to 3 attempts, and you know its tokens. Finished early? A stricter rule, and compare.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Wrap-up</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Today you built</div>
+    <h2>A loop that <em>fixes</em> itself</h2>
+    <div class="cards cols-3">
+      <div class="card "><div class="k">1 · Evaluator</div><h3>A grade and feedback</h3><p><code>with_structured_output</code> with a clear rule, tested first.</p></div>
+      <div class="card hot"><div class="k">2 · Loop</div><h3>An edge that goes back</h3><p>A conditional edge back to the writer, and a limit of 3 attempts.</p></div>
+      <div class="card "><div class="k">3 · Price</div><h3>Measured</h3><p>A good first draft costs one extra call. Each fix costs more.</p></div>
+    </div>
+    <div class="ex-strip" style="margin-top:28px"><span class="lbl">Day 4</span> <b>guardrails</b>, the project workflow with every pattern, and an <b>evaluation</b> against a plain agent</div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 09</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>

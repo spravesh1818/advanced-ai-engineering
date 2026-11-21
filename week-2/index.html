@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-week="2">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Design patterns · Advgenai</title>
+<meta name="description" content="Week 2: design patterns. Four days: routing, planning, reflection, and a project that measures them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Architects+Daughter&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/themes.css">
+<script>try{if(localStorage.getItem("deck-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+</head>
+<body>
+<!-- makes the doodles' lines look hand-drawn -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs></svg>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../index.html"><span class="dot"></span>Advgenai</a>
+    <nav class="weeks-nav" aria-label="Weeks"><span class="label">week</span><a class="wpill" data-week="1" href="../week-1/index.html" title="Week 1 · Agent foundations">1</a><a class="wpill cur" data-week="2" href="../week-2/index.html" title="Week 2 · Design patterns">2</a><span class="wpill off" data-week="3" aria-disabled="true" title="Week 3 · Context &amp; memory (coming soon)">3</span><span class="wpill off" data-week="4" aria-disabled="true" title="Week 4 · Multi-agent (coming soon)">4</span><span class="wpill off" data-week="5" aria-disabled="true" title="Week 5 · Production agents (coming soon)">5</span><span class="wpill off" data-week="6" aria-disabled="true" title="Week 6 · Voice agents (coming soon)">6</span></nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch between paper and chalkboard">☾ chalkboard</button>
+  </header>
+
+  <a class="back" href="../index.html">← all weeks</a>
+  <section class="hero small">
+    <div>
+      <p class="note">week 2 · four days · theme: the blueprint</p>
+      <h1>Design <mark>patterns</mark></h1>
+      <p class="lede">The workflow patterns from the official LangGraph guide <b>Workflows and agents</b>, and the guardrails from the LangChain docs. Short code in the same style as the docs. Every day you build one pattern and measure what it costs, and on Day 4 you join them into one workflow and compare it with a plain agent.</p>
+      <div class="stats">
+        <span class="stat"><b>4</b> days</span>
+        <span class="stat"><b>6</b> hours</span>
+        <span class="stat">LangChain · LangGraph · Groq · Tavily</span>
+      </div>
+    </div>
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true"><g filter="url(#rough)"><rect class="fill-b" x="140" y="18" width="140" height="56" rx="18"/><rect class="ink" x="140" y="18" width="140" height="56" rx="18"/><path class="ink" d="M210 74 L210 112"/><path class="ink" d="M198 100 L210 114 L222 100"/><path class="fill-y" d="M210 114 L300 178 L210 242 L120 178 Z"/><path class="ink" d="M210 114 L300 178 L210 242 L120 178 Z"/><path class="ink" d="M120 178 Q70 180 62 240"/><path class="ink" d="M50 228 L62 244 L76 230"/><path class="ink" d="M300 178 Q350 180 358 240"/><path class="ink" d="M346 228 L358 244 L372 230"/><rect class="fill-g" x="8" y="246" width="120" height="56" rx="16"/><rect class="ink" x="8" y="246" width="120" height="56" rx="16"/><rect class="fill-p" x="292" y="246" width="120" height="56" rx="16"/><rect class="ink" x="292" y="246" width="120" height="56" rx="16"/><path class="ink" d="M68 302 Q78 344 160 360"/><path class="ink" d="M352 302 Q342 344 260 360"/><rect class="fill-b" x="150" y="340" width="120" height="56" rx="18"/><rect class="ink" x="150" y="340" width="120" height="56" rx="18"/><path class="ink" d="M270 368 Q410 368 410 190 Q410 46 290 46"/><path class="ink" d="M300 34 L286 46 L300 60"/></g><text x="210" y="52" style="font-size:28px;text-anchor:middle">task</text><text x="210" y="188" style="font-size:28px;text-anchor:middle">route</text><text x="68" y="284" style="font-size:28px;text-anchor:middle">plan</text><text x="352" y="284" style="font-size:28px;text-anchor:middle">tools</text><text x="210" y="376" style="font-size:28px;text-anchor:middle">reflect</text><text x="210" y="434" style="font-size:34px;text-anchor:middle" transform="rotate(-3 210 434)">patterns, not magic!</text></svg>
+  </section>
+
+  <h2 class="section"><span>Pick a day</span></h2>
+  <div class="days">
+    <article class="day ready">
+      <div class="num"><small>Day</small><b>1</b><span class="mode">code</span></div>
+      <div>
+        <h3>Chaining and routing</h3>
+        <p class="blurb">The augmented LLM (structured output and tools), then two patterns: a chain of steps with a gate between them (built twice: with the LangChain pipe, then with LangGraph), and a router that sends each question down the path that fits it. You measure what every path costs. <b>Classwork (you build it yourself):</b> a review sorter, a tweet chain with the LangChain pipe, and a support router with three paths.</p>
+        <ul class="leave"><li>Make the model answer in a class with <code>with_structured_output</code></li><li>Build a chain with the LangChain pipe <code>prompt | llm | parser</code>, then the same chain with <code>StateGraph</code> and a conditional edge</li><li>Build a router with a search agent and a cheap direct path, and count the tokens</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn deck" href="class-1.html">Open deck →</a>
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-2/class-1.ipynb" data-colab="week-2/class-1.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+    <article class="day ready">
+      <div class="num"><small>Day</small><b>2</b><span class="mode">code</span></div>
+      <div>
+        <h3>Parallel work and orchestrator-worker</h3>
+        <p class="blurb">Three nodes look at one question at the same time, and an aggregator joins them. Then a planner writes the steps, <code>Send</code> starts one worker for each, and a reducer joins their notes into a brief. <b>Classwork (you build it yourself):</b> add a fourth side, and build a trip planner with one worker per day.</p>
+        <ul class="leave"><li>Run nodes in parallel with edges from START</li><li>Make a plan your code can read, and start one worker per step with <code>Send</code></li><li>Join the notes of all the workers with a reducer</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn deck" href="class-2.html">Open deck →</a>
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-2/class-2.ipynb" data-colab="week-2/class-2.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+    <article class="day ready">
+      <div class="num"><small>Day</small><b>3</b><span class="mode">code</span></div>
+      <div>
+        <h3>Evaluator-optimizer</h3>
+        <p class="blurb">One call writes a draft from saved notes, another grades it with a clear rule and gives feedback, and the graph loops back until the draft passes, with a limit of three attempts. <b>Classwork (you build it yourself):</b> try to fool the evaluator, then build your own loop that improves an email.</p>
+        <ul class="leave"><li>Write an evaluator with a grade and feedback, and test it first</li><li>Build a loop: a conditional edge that goes back, and a limit</li><li>Measure what the loop costs, and decide when it is worth it</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn deck" href="class-3.html">Open deck →</a>
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-2/class-3.ipynb" data-colab="week-2/class-3.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+    <article class="day ready">
+      <div class="num"><small>Day</small><b>4</b><span class="mode">build</span></div>
+      <div>
+        <h3>Guardrails and the research brief project</h3>
+        <p class="blurb">Protect an agent with three kinds of guardrail from the LangChain docs, join every pattern of the week into one workflow, and compare it with one plain agent, with a judge and the token meter. <b>Classwork (you build it yourself):</b> guard your own study helper, and trace every node the project runs.</p>
+        <ul class="leave"><li>Block attacks with Prompt Guard before the agent runs, hide emails with <code>PIIMiddleware</code>, ask a person with <code>HumanInTheLoopMiddleware</code></li><li>Wire one workflow with a guard, a router, workers and an evaluator loop</li><li>Write an eval set and a judge, and decide with your numbers</li></ul>
+        <div class="meta"><span>90 min</span><span>deck + notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn deck" href="class-4.html">Open deck →</a>
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-2/class-4.ipynb" data-colab="week-2/class-4.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+    <article class="day ready">
+      <div class="num"><small>Week</small><b>HW</b><span class="mode">practice</span></div>
+      <div>
+        <h3>Assignment: make your research workflow better</h3>
+        <p class="blurb">Five short tasks, one for each idea of the week: a third router path, plans of different sizes, an evaluator with your own rule, more guardrails, and a decision memo with your Day 4 numbers.</p>
+        <ul class="leave"><li>Add a path to the router and test it with your own questions</li><li>Mask card numbers, reject a tool call, and test Prompt Guard on your own attacks</li><li>Make a decision from your Day 4 table, with numbers</li></ul>
+        <div class="meta"><span>60 to 90 min</span><span>notebook</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn colab" href="https://colab.research.google.com/github/spravesh1818/advanced-ai-engineering/blob/main/week-2/assignment.ipynb" data-colab="week-2/assignment.ipynb" target="_blank" rel="noopener">▶ Open in Colab</a>
+      </div>
+    </article>
+  </div>
+
+  <h2 class="section"><span>What we build, day by day</span></h2>
+  <div class="recap">
+    <section class="rc">
+      <h3><small>Day 1</small>Chaining and routing</h3>
+      <dl>
+        <dt>What we build</dt><dd>A chain with a length gate, and a router with two paths: a search agent and a direct answer.</dd>
+        <dt>Blocks used</dt><dd><code>init_chat_model</code>, <code>with_structured_output</code>, <code>bind_tools</code>, <code>StateGraph</code>, conditional edges, <code>create_agent</code> with <code>TavilySearch</code>.</dd>
+        <dt>What you learn</dt><dd>Workflows and agents, state, nodes and edges, routing, and the token meter.</dd>
+      </dl>
+    </section>
+    <section class="rc">
+      <h3><small>Day 2</small>Parallel work</h3>
+      <dl>
+        <dt>What we build</dt><dd>A parallel pros, cons and costs workflow, and a research workflow: a planner, one worker per step, and a writer.</dd>
+        <dt>Blocks used</dt><dd>Edges from START, <code>Send</code>, a reducer (<code>operator.add</code>), <code>max_concurrency</code>.</dd>
+        <dt>What you learn</dt><dd>When steps can run at the same time, plans you can read, and what a bigger plan costs.</dd>
+      </dl>
+    </section>
+    <section class="rc">
+      <h3><small>Day 3</small>Evaluator-optimizer</h3>
+      <dl>
+        <dt>What we build</dt><dd>A write, grade and fix loop on saved notes, so nobody spends search tokens.</dd>
+        <dt>Blocks used</dt><dd><code>with_structured_output</code> for the grade, a conditional edge that goes back, a limit in the state.</dd>
+        <dt>What you learn</dt><dd>Clear, checkable rules, loops with a limit, and when reflection is worth its tokens.</dd>
+      </dl>
+    </section>
+    <section class="rc">
+      <h3><small>Day 4</small>Guardrails and the project</h3>
+      <dl>
+        <dt>What we build</dt><dd>A guarded agent, the research brief workflow with every pattern, and the eval table that tests it.</dd>
+        <dt>Blocks used</dt><dd>Llama Prompt Guard 2 (checked before the agent), <code>PIIMiddleware</code>, <code>ToolCallLimitMiddleware</code>, <code>HumanInTheLoopMiddleware</code>, a judge and a baseline agent.</dd>
+        <dt>What you learn</dt><dd>Guardrails of three kinds (input, output and execution), eval sets, and comparing with a baseline.</dd>
+      </dl>
+    </section>
+  </div>
+
+  <div class="cols">
+    <section class="box green">
+      <h3>By the end of the week you have</h3>
+      <ul class="tick">
+        <li>A research workflow built from the patterns of the LangGraph docs: <b>chaining, routing, parallel workers and an evaluator loop</b>, protected by <b>guardrails</b></li>
+        <li>An <b>eval set</b> and a <b>judge</b>, so you can prove that a change helped</li>
+        <li>A comparison with <b>one plain agent</b>, in numbers: helpful answers and tokens</li>
+        <li>A habit: add a pattern only when the table says it is <b>worth its cost</b></li>
+      </ul>
+    </section>
+    <section class="box blue">
+      <h3>Before you start</h3>
+      <ol>
+        <li>You need the same two free keys as Week 1: <b>Groq</b> (<b>console.groq.com</b> → API Keys) saved as <code>GROQ_API_KEY</code>, and <b>Tavily</b> (<b>tavily.com</b>) saved as <code>TAVILY_API_KEY</code>.</li>
+        <li>In Colab, click the 🔑 <b>Secrets</b> icon, add each key as a secret with the name above, paste the key, and switch <b>Notebook access</b> on.</li>
+        <li>The free Groq plan has a <b>speed limit</b> (about 8,000 tokens a minute and 200,000 a day for each model). If a cell pauses, it is waiting for the limit. If it ends with a <code>RateLimitError</code>, wait one minute and run it again.</li>
+        <li>Open the deck to follow along. In the deck: arrow keys move, <code>F</code> is fullscreen, <code>Q</code> shows likely questions, <code>T</code> switches to the chalkboard.</li>
+        <li>Open the notebook in Colab and run the cells from top to bottom. Each TODO is real code with a few blanks (<code>___</code>) to fill in, and each check shows what you should see in its <code>expected</code> comments.</li>
+      </ol>
+    </section>
+  </div>
+
+  <nav class="wnav" aria-label="Week navigation">
+    <a class="btn plain" href="../week-1/index.html">← week 1</a>
+    <a class="btn plain" href="../index.html">All weeks →</a>
+  </nav>
+  <p class="foot">all four days are open ✎</p>
+</div>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

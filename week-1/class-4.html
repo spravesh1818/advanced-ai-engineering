@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Day 4: Your own agent (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+<style>h2 + .code, h2 + div > .code { margin-top: 30px; }  /* air between a heading and a code block */</style>
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 1 · Day 4</div>
+  <div class="title-meta-right">90 min · You build</div>
+  <div class="geo">
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>Your own<br><em>agent</em></h1>
+    <p class="lede">Set up Telegram and email together, then build the agent from your own idea.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>You choose.<br>You build.</p></div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:00 to 0:02</span></div><dl>
+    <dt>Do we start from the trip planner?</dt><dd>Yes. Copy the modern notebook, keep the tools you can reuse, and write only the new tools your idea needs.</dd><dt>What if I do not have an idea?</dt><dd>Pick one from the idea list on the third slide, or ask me. A small idea that works is better than a big one that does not.</dd><dt>Which model do we use?</dt><dd>The same Gemini model as the trip planner notebooks. The key is GOOGLE_API_KEY.</dd><dt>Is today graded?</dt><dd>A short checklist: working tools, a system prompt, an Error path, a step limit, and your test question with its result.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Setup</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">First, together · about 20 minutes</div>
+    <h2>Telegram and email <em>keys</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:8px">
+      <div>
+        <div class="term-label">Telegram</div>
+        <div class="rows" style="margin-top:0">
+          <div class="num-row" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">@BotFather, send <b>/newbot</b>: copy the <b>token</b></div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Open your bot, press <b>Start</b>, send "hi"</div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Open <code>api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code>: copy <b>chat id</b></div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Secrets: <b>TELEGRAM_BOT_TOKEN</b> and <b>TELEGRAM_CHAT_ID</b></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="term-label">Gmail</div>
+        <div class="rows" style="margin-top:0">
+          <div class="num-row" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Turn on <b>2-Step Verification</b> in your Google account</div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Open <code>myaccount.google.com/apppasswords</code>: create one</div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Copy the <b>16 letters</b> once, without the spaces</div></div>
+          <div class="num-row step" style="padding:17px 0"><div class="n" style="font-size:38px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:32px">Secrets: <b>GMAIL_ADDRESS</b> and <b>GMAIL_APP_PASSWORD</b></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ex-strip" style="margin-top:22px"><span class="lbl">Test</span> run <code>send_telegram.invoke(...)</code> and <code>send_email.invoke(...)</code> to yourself: you should see <b>Sent to Telegram.</b> and <b>Email sent to ...</b></div>
+    <p class="caption" style="margin-top:14px"><b>Never</b> paste a token or a password in a cell, in the group or in a screenshot. Secrets: Notebook access on.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:02 to 0:25</span></div><dl>
+    <dt>I get 404 when I open the Telegram link.</dt><dd>The link needs the word bot in front of the token: api.telegram.org/bot then the token, with nothing between bot and the token.</dd><dt>The chat id list is empty.</dt><dd>You have not sent your bot a message yet. Press Start, send hi, then reload getUpdates.</dd><dt>Telegram says 401.</dt><dd>The token is wrong or was revoked. Copy it again from @BotFather, with no spaces or quotes.</dd><dt>Telegram says 403.</dt><dd>The bot cannot message that chat. Press Start on your bot, and check that you used the chat id (from getUpdates) and not the number in front of the token.</dd><dt>There is no app passwords page.</dt><dd>2-Step Verification is off, or it is a school or work account. Use a personal Gmail account.</dd><dt>The email says the login failed.</dt><dd>You used your normal password. It must be the 16-letter app password, written without spaces.</dd><dt>Why .invoke in the test?</dt><dd>After @tool the function is a tool object. You test it by hand with .invoke and a dictionary of inputs.</dd><dt>My token showed in a screenshot.</dt><dd>Revoke it: send /revoke to @BotFather and make a new one. For the app password, delete it on the same Google page and create another.</dd><dt>Can the agent email anyone?</dt><dd>It can email any valid address, from your Gmail, but only an address you typed in your own message. A personal Gmail allows about 500 recipients a day, so do not send many.</dd><dt>I added the secret but it is not found.</dt><dd>Switch Notebook access on, then restart the session and run the setup cell again.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Your idea</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Three lines, small</div>
+    <h2>Write your <em>idea</em> first</h2>
+    <div class="cards cols-3">
+      <div class="card "><div class="k">1 · Goal</div><h3>What it does</h3><p>One job, said in one sentence.</p><div class="eg">A laptop finder: the best laptop under a budget</div></div>
+      <div class="card hot"><div class="k">2 · Tools</div><h3>2 to 4 tools</h3><p>Reuse what you have. Write only what is new.</p><div class="eg">search_web, extract_page, calculator, send_telegram</div></div>
+      <div class="card "><div class="k">3 · Test question</div><h3>Proof it works</h3><p>One question you can ask and judge.</p><div class="eg">Best laptop under 80,000 NPR? Message me the top 3.</div></div>
+    </div>
+    <div class="ex-strip" style="margin-top:26px"><span class="lbl">Your shelf</span> search_web &middot; extract_page &middot; get_coordinates &middot; get_weather &middot; convert_currency &middot; calculator &middot; get_distance &middot; save_itinerary &middot; send_telegram &middot; send_email</div>
+    <p class="caption"><b>More than 4 tools?</b> Cut it down. A small agent that works beats a big one that does not.</p>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:25 to 0:35</span></div><dl>
+    <dt>What if my idea needs a tool we have not built?</dt><dd>Write one new tool, like in Day 3: @tool, a clear docstring, one try and except that returns an Error: text. Test it by hand with .invoke before the agent uses it.</dd><dt>Can I use a paid API?</dt><dd>Avoid it. Use free services without a card, so everyone can run the notebook.</dd><dt>Give me some ideas.</dt><dd>Laptop or phone finder with a budget and the top 3 sent to Telegram. Study planner that searches a topic and emails you a plan. Weekend trip planner for another city. Recipe finder with a cost total. News summary of one topic sent to Telegram.</dd><dt>Why only 2 to 4 tools?</dt><dd>Each tool is one more thing the model can choose wrongly, and one more thing to write and test. Small agents are easier to fix.</dd><dt>Why one test question?</dt><dd>It tells you when you are done: the agent answers it correctly, and you can show the Tools used line.</dd><dt>Can two of us build one agent?</dt><dd>Better one each. You can help each other, but everyone writes, tests and demos their own.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Build, break, show</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The rest of the class</div>
+    <h2>Build, then <em>break</em> it</h2>
+    <div class="ex-strip" style="margin-top:22px"><span class="lbl">Build</span> one tool, test it by hand <span class="arr">&rarr;</span> prompt <span class="arr">&rarr;</span> agent <span class="arr">&rarr;</span> your test question <span class="arr">&rarr;</span> <span class="lbl">Break</span> a bad link, a vague question <span class="arr">&rarr;</span> <span class="lbl">Show</span> 1 minute</div>
+    <table class="tbl" style="margin-top:20px">
+      <tr><th>When this happens</th><th class="acc">Fix this first</th></tr>
+      <tr><td>The wrong tool is chosen</td><td>Make the docstring clearer, then the prompt</td></tr>
+      <tr><td>The answer looks wrong</td><td>Read the <b>Tools used</b> line: which tools ran?</td></tr>
+      <tr><td>A tool crashes the run</td><td>One try and except that returns an <b>Error:</b> text</td></tr>
+      <tr><td>Stopped early</td><td>Run again. If it repeats, raise <b>recursion_limit</b> a little</td></tr>
+      <tr><td>Rate limit message (429)</td><td>Free key limit: wait a minute, then run again</td></tr>
+    </table>
+    <div class="takeaway"><span class="lbl">Your demo</span><span>Your <b>test question</b>, the <b>Tools used</b> line, and <b>one failure you fixed</b>.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">0:35 to 1:30</span></div><dl>
+    <dt>How do I know a tool is ready?</dt><dd>Run it by hand with .invoke and a real input, then with a bad input. It must return a text that starts with Error: and not crash.</dd><dt>My agent never uses my new tool.</dt><dd>Read the docstring as the model would. Say what the tool does and when to use it. Then add one line to the system prompt that names the tool.</dd><dt>The agent invents a tool or a link.</dt><dd>Add to the prompt: your only tools are these names, and never invent a link.</dd><dt>What should I break?</dt><dd>Give a bad link, a city that does not exist, or a vague question. Then check that the agent says what failed and does not crash.</dd><dt>I ran out of time.</dt><dd>Show what works: one tool tested by hand is a good demo. Finish the rest at home and send it to me.</dd><dt>How do I save my work?</dt><dd>File, Save a copy in Drive. Never share a notebook with a key pasted in it.</dd><dt>Where can I see the steps?</dt><dd>Print the Tools used line from the messages of the run, as in the trip planner notebook.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 05 WEEK 1 LEARNED ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Week 1 recap</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">What you learned in four days</div>
+    <h2>Week 1 in <em>one slide</em></h2>
+    <div class="rows" style="margin-top:28px">
+      <div class="num-row" style="padding:14px 0"><div class="n">1</div><div><div class="t" style="font-size:33px">An agent is a model, tools and a loop. The model decides the steps</div><div class="d" style="font-size:22px;margin-top:4px">In a workflow you write the steps. In an agent the model chooses them, so use the least autonomy that works</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">2</div><div><div class="t" style="font-size:33px">A tool is a Python function: name, docstring and inputs</div><div class="d" style="font-size:22px;margin-top:4px">The model asks for a tool and our code runs it. Function calling is ask, run, answer</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">3</div><div><div class="t" style="font-size:33px">A good tool never crashes: it returns an <code>Error:</code> text</div><div class="d" style="font-size:22px;margin-top:4px">Test every tool by hand with <code>.invoke</code> before the agent uses it</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">4</div><div><div class="t" style="font-size:33px">The system prompt tells the agent which tool to use and when</div><div class="d" style="font-size:22px;margin-top:4px">The trip planner chains tools by itself: coordinates first, then weather. Ten tools, one agent</div></div></div>
+      <div class="num-row" style="padding:14px 0"><div class="n">5</div><div><div class="t" style="font-size:33px">Memory is the messages we keep, and a step limit stops runaways</div><div class="d" style="font-size:22px;margin-top:4px">Same thread id, same memory. A small agent that works beats a big one that does not</div></div></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">wrap-up</span></div><dl>
+    <dt>Which point matters most?</dt><dd>Point 1 and point 3: who decides the steps, and a tool that returns an Error: text instead of crashing.</dd>
+    <dt>Where can I review each day?</dt><dd>Day 1 is the ideas, Day 2 is your first agent, Day 3 is your own tools, and Day 4 is your own agent. Each day has a deck and a notebook on the Week 1 page.</dd>
+    <dt>Do I need to remember the code?</dt><dd>No. Remember the shape: a tool is a function with a docstring, and the agent is the model, the tools and a loop. You can always look at the notebook.</dd>
+  </dl></aside>
+</section>
+
+<!-- ============ 06 END OF WEEK 1 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>End of Week 1</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">You made it · Week 1 done</div>
+    <h2>You built <em>your own agent</em></h2>
+    <div class="cards cols-3">
+      <div class="card hot"><div class="k">You have</div><h3>A working agent</h3><p>Your own tools, a system prompt, memory, an Error path and a step limit.</p><div class="eg">Ten tools on your shelf: search, read a page, weather, currency, Telegram, email and more</div></div>
+      <div class="card"><div class="k">Keep</div><h3>Your notebook and keys</h3><p>You will reuse the same agent and tools in the next weeks.</p><div class="eg">Google Gemini, Groq and Tavily keys, plus Telegram and Gmail</div></div>
+      <div class="card dark"><div class="k">Next</div><h3>Week 2 · Design patterns</h3><p>Route, plan, reflect and evaluate: the patterns that make an agent smarter.</p></div>
+    </div>
+    <div class="takeaway"><span class="lbl">Exit question</span><span>Write on paper: <b>an agent is ______</b>, and the agent <b>I built</b> does <b>______</b>.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+  <aside class="notes"><div class="qa-head"><b>Questions that may come up</b><span class="time">last 3 minutes</span></div><dl>
+    <dt>Do I need my agent again?</dt><dd>Yes. Keep your notebook and your keys. The next weeks build on the same tools.</dd>
+    <dt>What if my agent is not finished?</dt><dd>Finish it as practice before Week 2, and bring any errors or odd answers so we can look at them together.</dd>
+    <dt>What is in Week 2?</dt><dd>Design patterns: routing, planning, reflection and evaluation. They make an agent smarter without making it more complicated.</dd>
+  </dl></aside>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 06</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>

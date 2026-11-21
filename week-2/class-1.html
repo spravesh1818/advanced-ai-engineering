@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" data-week="2">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Day 1: Chaining and routing (sketch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Caveat:wght@500;700&family=Architects+Daughter&family=Gloria+Hallelujah&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/deck.css">
+<link rel="stylesheet" href="../assets/css/sketch.css">
+<link rel="stylesheet" href="../assets/css/themes.css">
+<style>h2 + .code, h2 + div > .code { margin-top: 30px; }  /* air between a heading and a code block */
+#notes-panel, #btn-notes { display: none !important; }  /* the Q&A notes live in the presenter deck only */</style>
+</head>
+<body>
+
+<!-- shared arrowheads for every diagram -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker>
+    <marker id="arrow-acc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent-line)"/></marker>
+    <!-- makes lines and boxes look hand-drawn -->
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="progress"></div>
+<div class="deck-viewport">
+<div class="deck-stage">
+
+<!-- ============ 01 ============ -->
+<section class="slide grid-bg title-slide">
+  <div class="meta-left"><span class="dot"></span>Week 2 · Day 1</div>
+  <div class="title-meta-right">90 min · You build</div>
+  <div class="geo">
+    <svg class="doodle" viewBox="0 0 420 440" aria-hidden="true">
+      <g filter="url(#rough)">
+        <path class="ink" d="M210 52 Q213 72 210 92"/>
+        <circle class="fill-r" cx="210" cy="42" r="13"/>
+        <rect class="fill-y" x="110" y="92" width="200" height="140" rx="34"/>
+        <rect class="ink" x="110" y="92" width="200" height="140" rx="34"/>
+        <circle class="dot" cx="170" cy="152" r="15"/>
+        <circle class="dot" cx="250" cy="152" r="15"/>
+        <path class="ink" d="M165 192 Q210 222 255 192"/>
+        <rect class="fill-b" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="128" y="248" width="164" height="132" rx="22"/>
+        <rect class="ink" x="150" y="270" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 282 L161 290 L172 272" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="282" x2="268" y2="282" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="308" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <path class="ink" d="M154 320 L161 328 L172 310" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="320" x2="256" y2="320" style="stroke-width:4"/>
+        <rect class="ink" x="150" y="346" width="24" height="24" rx="4" style="stroke-width:4"/>
+        <line class="ink" x1="188" y1="358" x2="240" y2="358" style="stroke-width:4"/>
+        <path class="ink" d="M128 276 Q90 300 78 342"/>
+        <path class="ink" d="M292 276 Q330 250 346 206"/>
+        <path class="ink" d="M336 186 l8 -16 M356 196 l16 -8 M352 176 l12 -12" style="stroke-width:4"/>
+        <path class="ink" d="M172 380 Q169 395 172 410 L160 412"/>
+        <path class="ink" d="M248 380 Q251 395 248 410 L260 412"/>
+      </g>
+      <text x="210" y="438" style="font-size:34px;text-anchor:middle" transform="rotate(-4 210 438)">gets things done!</text>
+    </svg>
+  </div>
+  <div class="pad">
+    <div class="eyebrow">Advanced Generative AI</div>
+    <h1>Smarter agents,<br>by <em>pattern</em></h1>
+    <p class="lede">Week 2: the workflow patterns from the LangGraph docs. Day 1 is chaining and routing.</p>
+  </div>
+  <div class="side-block"><div class="label">Today</div><p>Chain the steps.<br>Route the question.</p></div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Workflow or agent?</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Who decides the steps?</div>
+    <h2>A workflow follows <em>your</em> plan</h2>
+    <div class="cards cols-2">
+      <div class="card "><div class="k">Week 1 · An agent</div><h3>The model decides</h3><p>It chooses the next tool and when to stop. Flexible, but hard to predict and to test.</p></div>
+      <div class="card hot"><div class="k">Week 2 · A workflow</div><h3>You decide</h3><p>You draw the steps. The model does <b>one job in each step</b>. Predictable, cheaper, easy to test.</p></div>
+    </div>
+    <div class="takeaway"><span class="lbl">The docs say it simply</span><span><b>Workflows</b> have fixed code paths. <b>Agents</b> choose their own. Most real systems mix the two: an agent can be <b>one step</b> of a workflow.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The pattern map</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">LangGraph docs · Workflows and agents</div>
+    <h2>The week on <em>one page</em></h2>
+    <table class="tbl">
+      <tr><th>Pattern</th><th>What it does</th><th class="acc">Day</th></tr>
+      <tr><td>Prompt chaining</td><td>steps in order, with a gate between them</td><td>1</td></tr>
+      <tr><td>Routing</td><td>one step chooses the path</td><td>1</td></tr>
+      <tr><td>Parallelization</td><td>fixed steps run at the same time</td><td>2</td></tr>
+      <tr><td>Orchestrator-worker</td><td>a planner writes the steps, one worker each</td><td>2</td></tr>
+      <tr><td>Evaluator-optimizer</td><td>one call writes, another grades, loop</td><td>3</td></tr>
+      <tr><td>Guardrails + evaluation</td><td>protect the agent, measure the result</td><td>4</td></tr>
+    </table>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>The augmented LLM</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 1 · the building block</div>
+    <h2>A model with <em>two extras</em></h2>
+    <div class="code" style="font-size:24px;padding:28px 38px"><span class="k">class</span> Route(BaseModel):
+    step: Literal["search", "direct"] = Field(description="search: ... direct: ...")
+
+router = llm.with_structured_output(Route, method="json_schema", strict=True)
+router.invoke("Is it worth learning Rust?").step        <span class="c"># "search"</span>
+
+llm_with_tools = llm.bind_tools([search])
+llm_with_tools.invoke("Latest news about Nepal?").tool_calls</div>
+    <div class="cards cols-2" style="margin-top:26px">
+      <div class="card "><div class="k">Structured output</div><h3>An answer your code can read</h3><p>The model must fill the class. <code>Literal</code> allows only the listed words.</p></div>
+      <div class="card hot"><div class="k">Tools</div><h3>The model asks</h3><p><code>bind_tools</code> tells the model a tool exists. It <b>asks</b> for it; it does not run it.</p></div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 1</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 1 · build it yourself · about 7 minutes</div>
+    <h2>A review <em>sorter</em></h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself in the empty cell under <b>Classwork 1</b>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">A class <code>Review</code> with one field, <code>mood</code>: positive, negative or neutral, with <b>your own</b> description.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px"><code>sorter</code> = the model with structured output, using your class.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Run the check: three reviews, three words.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>The check prints <b>positive, negative, neutral</b>. Finished early? Add a fourth word: <code>mixed</code>.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Chaining with LangChain</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 2A · LangChain: the pipe</div>
+    <h2>Three parts, one <em>pipe</em></h2>
+    <div class="code" style="font-size:20px;padding:20px 26px">write_prompt   = ChatPromptTemplate.from_template("Answer this question: {question}")
+shorten_prompt = ChatPromptTemplate.from_template("Shorten this to at most 3 sentences: {answer}")
+
+write_step   = write_prompt | llm | StrOutputParser()     <span class="c"># prompt -&gt; model -&gt; text</span>
+shorten_step = shorten_prompt | llm | StrOutputParser()
+
+<span class="k">def</span> check_and_shorten(answer):                <span class="c"># the gate: plain Python</span>
+    <span class="k">if</span> len(answer.split()) &gt; 80:
+        <span class="k">return</span> shorten_step.invoke({"answer": answer})
+    <span class="k">return</span> answer
+
+lc_chain = write_step | check_and_shorten
+lc_chain.invoke({"question": "Explain how the internet works."})</div>
+    <p class="caption"><code>a | b</code>: the output of <b>a</b> goes into <b>b</b>. A prompt with a <code>{placeholder}</code>, the model, and a parser that keeps only the text. A plain Python function in the pipe becomes a step: here, the gate.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Chaining with LangGraph</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 2B · the same chain as a graph</div>
+    <h2>State, node, edge, <em>gate</em></h2>
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:36px;margin-top:6px">
+      <div><div class="code" style="font-size:20px;padding:22px 26px"><span class="k">def</span> check_length(state: ChainState):       <span class="c"># the gate: plain Python</span>
+    <span class="k">if</span> len(state["answer"].split()) &gt; 80:
+        <span class="k">return</span> "Fail"
+    <span class="k">return</span> "Pass"
+
+builder = StateGraph(ChainState)
+builder.add_node("write_answer", write_answer)
+builder.add_node("shorten", shorten)
+builder.add_edge(START, "write_answer")
+builder.add_conditional_edges("write_answer", check_length, {"Fail": "shorten", "Pass": END})
+builder.add_edge("shorten", END)
+chain = builder.compile()</div></div>
+      <div>
+        <table class="tbl" style="margin-top:0">
+          <tr><th>Word</th><th class="acc">Meaning</th></tr>
+          <tr><td>State</td><td>the shared dictionary</td></tr>
+          <tr><td>Node</td><td>a function that changes it</td></tr>
+          <tr><td>Edge</td><td>who runs next</td></tr>
+          <tr><td>Gate</td><td>a function that chooses</td></tr>
+        </table>
+        <p class="caption" style="margin-top:20px">A node returns <b>only the keys it changes</b>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>LangChain or LangGraph?</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">The same chain, two tools</div>
+    <h2>A line, or a <em>graph</em>?</h2>
+    <table class="tbl">
+      <tr><th></th><th>LangChain pipe <code>|</code></th><th class="acc">LangGraph</th></tr>
+      <tr><td>Steps in a straight line</td><td>shortest code</td><td>works, more code</td></tr>
+      <tr><td>A gate (if)</td><td>hidden inside a function</td><td>a visible conditional edge</td></tr>
+      <tr><td>See each step's result</td><td>only the final text</td><td>the state keeps every key</td></tr>
+      <tr><td>Parallel, workers, loops</td><td>hard</td><td>built in (Days 2 and 3)</td></tr>
+    </table>
+    <div class="takeaway"><span class="lbl">The rule</span><span>Steps in a line: the <b>LangChain pipe</b>. A decision, parallel work or a loop: <b>LangGraph</b>. A LangGraph node can run a pipe inside it.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 2</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 2 · build it yourself · about 10 minutes</div>
+    <h2>A tweet chain with the <em>pipe</em></h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself under <b>Classwork 2</b>, with the LangChain pipe (like TODO 2).</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Two prompts and two small chains: write a tweet, shorten a tweet.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">A gate function: more than 200 characters? Shorten it.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px"><code>tweet_chain = write_chain | gate</code>, then run the check.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>The check prints a tweet of about 200 characters or fewer. Finished early? Build it as a graph too.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Routing</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Part 3</div>
+    <h2>A router <em>chooses</em> the path</h2>
+    <svg class="diagram" viewBox="0 0 1760 340" style="margin-top:20px">
+      <rect class="box" x="0" y="110" width="300" height="110"/>
+      <text class="tx-l" x="150" y="176" style="font-size:34px">Question</text>
+      <line class="line" x1="300" y1="165" x2="400" y2="165" marker-end="url(#arrow)"/>
+      <rect class="box-acc" x="400" y="90" width="380" height="150"/>
+      <text class="tx-lbl white" x="590" y="138" style="font-size:18px;fill:#fff">STRUCTURED OUTPUT</text>
+      <text class="tx-l white" x="590" y="192" style="font-size:34px">route_question</text>
+      <path class="line" d="M780 140 L940 70" marker-end="url(#arrow)"/>
+      <path class="line" d="M780 190 L940 260" marker-end="url(#arrow)"/>
+      <text class="tx-s" x="860" y="100" style="font-size:22px">conditional edge</text>
+      <rect class="box" x="940" y="20" width="620" height="100"/>
+      <text class="tx-l" x="1090" y="85" style="font-size:32px">answer_search</text>
+      <text class="tx-s" x="1380" y="83" style="font-size:24px">an agent with Tavily</text>
+      <rect class="box" x="940" y="210" width="620" height="100"/>
+      <text class="tx-l" x="1090" y="275" style="font-size:32px">answer_direct</text>
+      <text class="tx-s" x="1380" y="273" style="font-size:24px">one model call</text>
+    </svg>
+    <p class="caption">The router returns <b>one word</b>. <code>route_decision</code> turns it into the <b>name of the next node</b>. Easy questions take the cheap path.</p>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Route, then measure</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Put it together</div>
+    <h2>First route. Then <em>measure</em>.</h2>
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:36px;margin-top:6px">
+      <div><div class="code" style="font-size:20px;padding:20px 26px"><span class="k">def</span> route_question(state: RouterState):
+    <span class="k">return</span> {"decision": router.invoke(state["question"]).step}
+
+<span class="k">def</span> answer_search(state: RouterState):
+    result = search_agent.invoke({"messages": state["question"]})
+    <span class="k">return</span> {"answer": result["messages"][-1].content}
+
+<span class="k">def</span> route_decision(state: RouterState):
+    <span class="k">if</span> state["decision"] == "search":
+        <span class="k">return</span> "answer_search"
+    <span class="k">return</span> "answer_direct"
+
+builder.add_conditional_edges("route_question", route_decision,
+    {"answer_search": "answer_search", "answer_direct": "answer_direct"})</div></div>
+      <div>
+        <table class="tbl" style="margin-top:0">
+          <tr><th>Path</th><th class="acc">Tokens (our test)</th></tr>
+          <tr><td>direct</td><td>about 300 to 400</td></tr>
+          <tr><td>search</td><td>about 2,400</td></tr>
+        </table>
+        <p class="caption" style="margin-top:20px">The agent costs the most: it calls the model, runs the search, and calls the model <b>again</b> with the results.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Classwork 3</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Classwork 3 · build it yourself · about 15 minutes</div>
+    <h2>A support router with <em>three</em> paths</h2>
+    <div style="margin-top:14px"><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">1</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">Build it yourself under <b>Classwork 3</b>, as a LangGraph graph (like TODO 5 to 7).</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">2</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">A class <code>Ticket</code> (billing, technical, other) and <code>ticket_router</code>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">3</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">A state, four nodes, and a gate <code>pick_team</code>.</div></div><div class="num-row" style="padding:14px 0"><div class="n" style="font-size:36px;width:56px">4</div><div class="d" style="margin:0;color:var(--ink);font-weight:500;font-size:30px">The graph <code>support_router</code>, then run the check.</div></div></div>
+    <div class="takeaway"><span class="lbl">Done when</span><span>Each message gets the right team and a reply. Finished early? Add a fourth team: <code>sales</code>.</span></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+<!-- ============ 13 ============ -->
+<section class="slide grid-bg">
+  <div class="meta-left"><span class="dot"></span>Wrap-up</div><div class="slide-num"></div>
+  <div class="pad">
+    <div class="eyebrow">Today you built</div>
+    <h2>A chain and a <em>router</em></h2>
+    <div class="cards cols-3">
+      <div class="card "><div class="k">1 · Augmented LLM</div><h3>Structured output + tools</h3><p><code>with_structured_output</code> and <code>bind_tools</code>.</p></div>
+      <div class="card hot"><div class="k">2 · Chaining</div><h3>Steps and a gate, twice</h3><p>The LangChain pipe <code>|</code>, then the same chain as a <code>StateGraph</code> with a conditional edge.</p></div>
+      <div class="card "><div class="k">3 · Routing</div><h3>One word, two paths</h3><p>Easy questions take the cheap path. The token meter shows the difference.</p></div>
+    </div>
+    <div class="ex-strip" style="margin-top:28px"><span class="lbl">Day 2</span> steps that run <b>at the same time</b>, and a planner that starts <b>one worker for each step</b></div>
+  </div>
+  <div class="accent-bar"></div>
+</section>
+
+</div><!-- /deck-stage -->
+</div><!-- /deck-viewport -->
+
+<div class="deck-controls">
+  <button id="btn-prev" aria-label="Previous">&larr;</button>
+  <span id="counter">01 / 13</span>
+  <button id="btn-next" aria-label="Next">&rarr;</button>
+  <button id="btn-theme">Theme (T)</button>
+  <button id="btn-notes">Questions (Q)</button>
+  <button id="btn-full">Full (F)</button>
+</div>
+<div class="notes-panel" id="notes-panel"></div>
+
+<script src="../assets/js/deck.js"></script>
+</body>
+</html>
